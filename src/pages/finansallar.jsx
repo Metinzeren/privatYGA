@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
 
-const financial = () => {
+const finansallar = () => {
   const [financialData, setFinancialData] = useState(null);
   const [activityData, setActivityData] = useState(null);
   const { t } = useTranslation();
@@ -254,4 +254,4 @@ const financial = () => {
   );
 };
 
-export default financial;
+export default finansallar;

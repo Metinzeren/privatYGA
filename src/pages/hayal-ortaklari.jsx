@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
-const partners = () => {
+const hayalortaklari = () => {
   const [partners, setPartners] = useState(null);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,6 @@ const partners = () => {
     };
     fetchPartners();
   }, []);
-  console.log(partners);
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -86,4 +85,4 @@ const partners = () => {
   );
 };
 
-export default partners;
+export default hayalortaklari;

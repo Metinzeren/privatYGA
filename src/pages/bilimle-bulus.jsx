@@ -31,7 +31,6 @@ const bilimlebulus = () => {
   //   const objTwo =
   //     meetData && meetData.rooms.map((item) => JSON.parse(item.content));
   const ref = useRef(null);
-  console.log(meetData);
   return (
     <Loading loading={isLoading}>
       <Head>

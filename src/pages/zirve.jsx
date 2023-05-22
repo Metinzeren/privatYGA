@@ -14,6 +14,7 @@ import {
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { Dialog } from "primereact/dialog";
 const peak = () => {
   const [strategicData, setStrategicData] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -25,6 +26,8 @@ const peak = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [videos, setVideos] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [displayModal, setDisplayModal] = useState(false);
   const { t } = useTranslation();
   const handleImageClick = (item) => {
     setSelectedItem(item);
@@ -53,17 +56,15 @@ const peak = () => {
     await getPeakSlider().then((res) => {
       setBannerSlider(res.data);
     });
-    await getVideos()
-      .then((res) => {
-        setVideos(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await getVideos().then((res) => {
+      setVideos(res.data);
+    });
     setIsLoading(false);
   };
-  console.log(videos);
-
+  const openModal = (video) => {
+    setSelectedVideo(video);
+    setDisplayModal(true);
+  };
   const SliderInfoBox = () => {
     const isFind =
       speakerData && speakerData.find((c, i) => i === activeSlideIndex);
@@ -186,6 +187,75 @@ const peak = () => {
           ))}
       </div>
 
+      <div className="mb-16">
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+          loop={true}
+          scrollbar={{ draggable: true }}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 2000 }}
+          navigation={{
+            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-next",
+          }}
+          spaceBetween={20}
+          breakpoints={{
+            0: {
+              slidesPerView: 1.5,
+            },
+            767: {
+              slidesPerView: 2.5,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+            1280: {
+              slidesPerView: 5,
+            },
+          }}
+        >
+          <div className="">
+            {videos &&
+              videos.map((video, index) => (
+                <SwiperSlide
+                  onClick={() => openModal(video.video)}
+                  key={index}
+                  className="relative"
+                >
+                  <img
+                    className="cursor-pointer"
+                    src={`/images/${video.video}.jpeg`}
+                    alt="Video Thumbnail"
+                    style={{ order: index % 2 === 0 ? 0 : 1 }}
+                  />
+                  <i
+                    className="pi pi-caret-right cursor-pointer absolute top-28 left-40"
+                    style={{
+                      background: "blue",
+                      color: "white",
+                      borderRadius: "50%",
+                      padding: "1rem",
+                    }}
+                  ></i>
+                </SwiperSlide>
+              ))}
+          </div>
+        </Swiper>
+      </div>
+      <Dialog
+        visible={displayModal}
+        onHide={() => setDisplayModal(false)}
+        modal
+      >
+        {selectedVideo && (
+          <iframe
+            allowFullScreen
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${selectedVideo}`}
+          ></iframe>
+        )}
+      </Dialog>
       <div className="pl-48 md:pl-4 md:pr-4 pr-48 mb-16">
         <h1 className="text-[#233FFB] text-4xl font-bold">
           YGA Zirvesi 2022 Konuşmacıları
@@ -225,22 +295,19 @@ const peak = () => {
               slidesPerView: 3,
             },
           }}
-          centeredSlides={true}
         >
           {speakerData &&
             speakerData.map((item, i) => {
               return (
-                <div key={i} className="">
-                  <SwiperSlide className="w-full">
-                    <div className="">
-                      <img
-                        className="w-full h-[40rem] object-cover"
-                        src={item.image}
-                        alt
-                      />
-                    </div>
-                  </SwiperSlide>
-                </div>
+                <SwiperSlide key={i} className="w-full">
+                  <div className="">
+                    <img
+                      className="w-full h-[40rem] object-cover"
+                      src={item.image}
+                      alt=""
+                    />
+                  </div>
+                </SwiperSlide>
               );
             })}
           {/* <div className="swiper-button-prev md:hidden">

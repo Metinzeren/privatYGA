@@ -241,7 +241,6 @@ const KayıtOl = ({ name }) => {
 
     try {
       const response = await postFormData(formData);
-      console.log(response);
       if (response.status) {
         setVisible3(true);
         setTimeout(() => {

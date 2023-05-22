@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
-const contact = () => {
+const iletisim = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -186,4 +186,4 @@ const contact = () => {
   );
 };
 
-export default contact;
+export default iletisim;

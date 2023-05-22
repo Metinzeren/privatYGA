@@ -48,7 +48,7 @@ const globalimpatmiddleschool = () => {
     {
       id: 4,
       button: t("tab4"),
-      label: ["ucretler-section-1", "ucretler-section-2"],
+      label: ["ucretler-section-1"],
     },
     {
       id: 5,
@@ -192,7 +192,6 @@ const globalimpatmiddleschool = () => {
       </div>
     );
   };
-  console.log(middleData);
   const itemDescWithLineBreaks =
     middleData && middleData.title.replace(/<br\s*\/?>/g, "<br/>");
   return (
@@ -521,7 +520,6 @@ const globalimpatmiddleschool = () => {
                 {middleData &&
                   middleData.rooms.map((item, index) => {
                     const roomObj = JSON.parse(item && item.content);
-                    console.log(roomObj, "room");
                     return (
                       <div className="flex w-full" key={index}>
                         <div className="">

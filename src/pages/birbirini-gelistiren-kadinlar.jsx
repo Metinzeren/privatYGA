@@ -12,18 +12,12 @@ const empwoman = () => {
   useEffect(() => {
     const fetchEmpWoman = async () => {
       setIsLoading(true);
-      await getEmpWoman()
-        .then((res) => {
-          setWomanData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      await getEmpWoman().then((res) => {
+        setWomanData(res.data.detail);
+      });
     };
     fetchEmpWoman();
+    setIsLoading(false);
   }, []);
   const obj = JSON.parse(womanData && womanData.content);
   const ref = useRef(null);

@@ -12,7 +12,6 @@ const bilimseferberligi = () => {
     };
     fetchProjects();
   }, []);
-  console.log(projects);
   const obj = JSON.parse(projects && projects.content);
   const ref = useRef(null);
   return (

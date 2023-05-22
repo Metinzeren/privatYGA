@@ -3,68 +3,71 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
 import "primeicons/primeicons.css";
-import { getProjectsTwin } from "@/API/helper";
-import { useTranslation } from "next-i18next";
+import { getProjectsWewalk } from "@/API/helper";
 import Loading from "@/components/Loading";
+import { useTranslation } from "next-i18next";
 import Head from "next/head";
-const twin = () => {
-  const [twinData, setTwinData] = useState(null);
-  const { t } = useTranslation();
+
+const wewalk = () => {
+  const [weWalkData, setWeWalkData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
   useEffect(() => {
-    const fetchTwin = async () => {
-      setIsLoading(true);
-      await getProjectsTwin()
+    setIsLoading(true);
+    const fetchWeawalk = async () => {
+      await getProjectsWewalk()
         .then((res) => {
-          setTwinData(res.data.detail);
+          setWeWalkData(res.data.detail);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
         })
         .finally(() => {
           setIsLoading(false);
         });
     };
-    fetchTwin();
+    fetchWeawalk();
   }, []);
-  console.log(twinData);
-  const obj = JSON.parse(twinData && twinData.content);
+  const obj = JSON.parse(weWalkData && weWalkData.content);
   const ref = useRef(null);
-
   return (
     <Loading loading={isLoading}>
       <Head>
-        <title>{twinData && twinData.meta_title}</title>
-        <meta name="description" content={twinData && twinData.meta_desc} />
+        <title>{weWalkData && weWalkData.meta_title}</title>
+        <meta name="description" content={weWalkData && weWalkData.meta_desc} />
       </Head>
-      {twinData && (
+      {weWalkData && (
         <div className="w-full relative">
           <img
             className="w-full md:h-screen object-cover "
-            src={twinData.image_background}
+            src={weWalkData.image_background}
             alt=""
           />
           <div className="absolute  md:top-64 md:left-0 top-96 left-48">
             <div className="text-white md:pl-4 md:pr-4 flex flex-col gap-2 w-[600px] md:w-full">
-              <img className="w-48" src={twinData.image_logo} alt="" />
+              <img
+                className="w-96 md:w-80"
+                src={weWalkData.image_logo}
+                alt=""
+              />
               <h1 className="text-2xl md:text-base">{t("ygagirisimleri")}</h1>
               <h1 className="text-6xl md:text-2xl font-bold">
-                {twinData.title}
+                {weWalkData.title}
               </h1>
-              <p className="mt-2 text-2xl md:text-base">{twinData.desc}</p>
+              <p className="mt-2 text-2xl md:text-base">{weWalkData.desc}</p>
               <div className="flex gap-3">
                 <a
                   target="_blank"
                   className="px-12 md:px-8 md:py-3 md:flex md:items-center py-4 bg-white text-base text-black rounded-md"
-                  href={twinData.web_site}
+                  href={weWalkData.web_site}
                 >
-                  {twinData.web_site_button_text}
+                  {weWalkData.web_site_button_text}
                 </a>
                 <a
                   className="px-12  md:px-8 md:py-3 md:flex md:items-center py-4 bg-orange-400 text-base text-white rounded-md"
                   href="/"
                 >
-                  {twinData.video_button_text}
+                  {weWalkData.video_button_text}
                 </a>
               </div>
             </div>
@@ -89,12 +92,16 @@ const twin = () => {
       )}
       <div className="wewalk">
         {obj &&
-          obj.page.map((o) => (
-            <div ref={ref} dangerouslySetInnerHTML={{ __html: o.content }} />
+          obj.page.map((o, i) => (
+            <div
+              key={i}
+              ref={ref}
+              dangerouslySetInnerHTML={{ __html: o.content }}
+            />
           ))}
       </div>
       <div className="flex items-center justify-center mt-16">
-        <h1 className="text-[#FD8204] text-4xl md:w-full w-1/2 text-center font-bold">
+        <h1 className="text-[#FD8204] text-4xl w-1/2 md:w-full text-center font-bold">
           {t("galleryText")}
         </h1>
       </div>
@@ -126,9 +133,12 @@ const twin = () => {
             },
           }}
         >
-          {twinData &&
-            twinData.awards.map((item, index) => (
-              <SwiperSlide className="w-full relative  bg-white shadow-xl">
+          {weWalkData &&
+            weWalkData.awards.map((item, index) => (
+              <SwiperSlide
+                key={index}
+                className="w-full relative bg-white shadow-xl"
+              >
                 <div className="flex flex-col items-center  py-8">
                   <img
                     className="w-48 pb-16 object-contain"
@@ -159,4 +169,4 @@ const twin = () => {
   );
 };
 
-export default twin;
+export default wewalk;

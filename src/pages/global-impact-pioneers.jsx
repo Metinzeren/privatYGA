@@ -27,7 +27,6 @@ const pioneers = () => {
   }, []);
   const obj = JSON.parse(pioneersData && pioneersData.content);
   const ref = useRef(null);
-  console.log(pioneersData);
   return (
     <Loading loading={isLoading}>
       <Head>

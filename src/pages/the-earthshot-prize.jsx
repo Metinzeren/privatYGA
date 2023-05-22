@@ -8,11 +8,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
 import Head from "next/head";
+import { Dialog } from "primereact/dialog";
 const earthshot = () => {
   const [earthquakeDatas, setEarthquakeDatas] = useState(null);
   const [earthSliderData, setEarthSliderData] = useState(null);
   const [advistoryData, setAdvistoryData] = useState(null);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [displayModal, setDisplayModal] = useState(false);
+
   useEffect(() => {
     const fetchEarthquake = async () => {
       await getEarthShotPage().then((res) => {
@@ -39,7 +42,6 @@ const earthshot = () => {
     };
     fetchAdvistory();
   }, []);
-
   const obj =
     earthquakeDatas &&
     earthquakeDatas.page.map((item) =>
@@ -106,16 +108,31 @@ const earthshot = () => {
               >
                 Earthshot Prize
               </a>
-              <a
+              <p
                 className="px-12 md:px-8 py-4 bg-[#FD8204]  text-base text-white rounded-md"
-                href="/"
+                onClick={() => setDisplayModal(true)}
               >
                 Tanıtım Videosu
-              </a>
+              </p>
             </div>
           </div>
         </div>
       )}
+      <Dialog
+        visible={displayModal}
+        onHide={() => setDisplayModal(false)}
+        modal
+        style={{ width: "50vw" }}
+      >
+        <iframe
+          allowFullScreen
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${
+            earthquakeDatas && earthquakeDatas.video
+          }`}
+        ></iframe>
+      </Dialog>
       <div className="">
         {obj &&
           obj.map((o, i) => (
@@ -201,22 +218,19 @@ const earthshot = () => {
               slidesPerView: 3,
             },
           }}
-          centeredSlides={true}
         >
           {advistoryData &&
             advistoryData.map((item, index) => {
               return (
-                <div key={index} className="">
-                  <SwiperSlide className="w-full">
-                    <div className="">
-                      <img
-                        className="w-full md:h-[70vh] object-cover"
-                        src={item.image}
-                        alt
-                      />
-                    </div>
-                  </SwiperSlide>
-                </div>
+                <SwiperSlide key={index} className="w-full">
+                  <div className="">
+                    <img
+                      className="w-full md:h-[70vh] object-cover"
+                      src={item.image}
+                      alt="image"
+                    />
+                  </div>
+                </SwiperSlide>
               );
             })}
           {/* <div className="swiper-button-prev md:hidden">

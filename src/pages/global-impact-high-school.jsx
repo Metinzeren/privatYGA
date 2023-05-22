@@ -48,7 +48,6 @@ const globalimpacthighschool = () => {
   }, []);
   const obj = JSON.parse(globalData && globalData.content);
   const ref = useRef(null);
-  console.log(globalData);
   const filterPageBySectionSlug = (sectionSlug) => {
     var _vFindTab = selectionOptions.find((y) => y.id === sectionSlug);
     if (_vFindTab !== null) {

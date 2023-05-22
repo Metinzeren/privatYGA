@@ -1,6 +1,5 @@
 import { getCookie } from "@/utils/common";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export default function api() {
   const _vLang = getCookie("NEXT_LOCALE");
@@ -42,6 +41,10 @@ export const getGlobalHigh = async () =>
   await api().get("/program/global-impact-high-school");
 
 export const getPrograms = async () => await api().get("/programs");
+
+export const getKvkkPage = async () => await api().get("/page/kvkk");
+
+export const getKvkkPdf = async () => await api().get("/kvkk-pdf");
 
 export const getAwards = async () => await api().get("/awards");
 
@@ -99,9 +102,7 @@ export const getUniversity = async () =>
 export const getAlmuni = async () =>
   await api().get("/program/alumni-toplulugu");
 
-export const getVideos = async () => {
-  await api().get("/videos");
-};
+export const getVideos = async () => await api().get("/videos");
 
 export const getUniversities = async () => {
   const response = await axios.get(

@@ -6,7 +6,7 @@ import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const graduates = () => {
+const ygamezunlari = () => {
   const [graduatesData, setGraduatesData] = useState(null);
   const [entrepreneurs, setEntrepreneurs] = useState(null);
   const [itemsToShow, setItemsToShow] = useState(8);
@@ -161,4 +161,4 @@ const graduates = () => {
   );
 };
 
-export default graduates;
+export default ygamezunlari;

@@ -7,6 +7,7 @@ const nextI18nextConfig = require("../../next-i18next.config.js");
 //theme
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 //core
+import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";
 import { appWithTranslation } from "next-i18next";
 import { useEffect, useState } from "react";

@@ -11,7 +11,7 @@ import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
 
-const Alumnitoplulugu = () => {
+const alumni = () => {
   const [almuniData, setAlmuniData] = useState(null);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +64,6 @@ const Alumnitoplulugu = () => {
     };
     fetchAlmuni();
   }, []);
-  console.log(almuniData);
   const obj = JSON.parse(almuniData && almuniData.content);
   const ref = useRef(null);
   const itemDescWithLineBreaks = almuniData && removeBlank(almuniData.title);
@@ -160,7 +159,7 @@ const Alumnitoplulugu = () => {
       )}
       {/* mobil tab */}
       <div className="hidden md:block">
-        <div className="fixed  z-[99999999999] top-10 w-full">
+        <div className="fixed  z-[99999999999] top-16 w-full">
           <div>
             <Dropdown
               value={selectionOptions.find((option) => option.id === selection)}
@@ -404,4 +403,4 @@ const Alumnitoplulugu = () => {
   );
 };
 
-export default Alumnitoplulugu;
+export default alumni;

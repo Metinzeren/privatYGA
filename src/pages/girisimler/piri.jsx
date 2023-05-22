@@ -28,7 +28,6 @@ const piri = () => {
     };
     fetchPiri();
   }, []);
-  console.log(piriData);
   const obj = JSON.parse(piriData && piriData.content);
   const ref = useRef(null);
   return (

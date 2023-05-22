@@ -1,203 +1,78 @@
 import React, { useEffect, useState } from "react";
-import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import "primeicons/primeicons.css";
 import { useRouter } from "next/router";
 import { Sidebar } from "primereact/sidebar";
 import { useTranslation } from "next-i18next";
 import KayıtOl from "./KayıtOl";
+import { enMenuItems, trMenuItems } from "../utils/data";
+import { getCookie } from "@/utils/common";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState({});
   const [visibleRight, setVisibleRight] = useState(false);
   const router = useRouter();
+  const [menuItems, setMenuItems] = useState([]);
   const { t } = useTranslation();
   const locales = router.locales.map((locale) => ({
     key: locale,
     value: locale,
   }));
 
-  const menuItems = [
-    {
-      id: 1,
-      label: "Hakkımızda",
-      url: "/about",
-      subItems: [
-        {
-          label: "Hayat Ortakları",
-          url: "/partners",
-        },
-        {
-          label: "Ofis Ekibi",
-          url: "/history",
-        },
-        {
-          label: "Mezunlar",
-          url: "/arge",
-        },
-        {
-          label: "Hakkımızda",
-          url: "/policies",
-        },
-        {
-          label: "Finansallar",
-          url: "/news",
-        },
-        {
-          label: "İletişim",
-          url: "/sectoral",
-        },
-      ],
-    },
-    {
-      id: 2,
-      label: "Projeler",
-      url: "/projects",
-      subItems: [
-        {
-          label: "Bilim Seferberliği",
-          url: "/products",
-        },
-        {
-          label: "Deprem SeferBerliği",
-          url: "/earthquake",
-        },
-      ],
-    },
-    {
-      id: 3,
-      label: "Girişimler",
-      url: "/initiatives",
-      subItems: [
-        {
-          label: "We Walk",
-          url: "/products",
-        },
-        {
-          label: "Piri",
-          url: "/tarihce",
-        },
-        {
-          label: "PoiLabs",
-          url: "/ar-ge",
-        },
-        {
-          label: "Twin",
-          url: "/politikalar",
-        },
-        {
-          label: "UP School",
-          url: "/haberler",
-        },
-      ],
-    },
-    {
-      id: 4,
-      label: "YGA Programları",
-      url: "/resources",
-      subItems: [
-        {
-          label: "Global Impact Middle School",
-          url: "/products",
-        },
-        {
-          label: "Bilimle Buluş",
-          url: "/tarihce",
-        },
-        {
-          label: "Global Impact High School",
-          url: "/ar-ge",
-        },
-        {
-          label: "Birbirini Geliştiren Kadınlar",
-          url: "/politikalar",
-        },
-        {
-          label: "Global Impact University",
-          url: "/haberler",
-        },
-        {
-          label: "Global Impact Pioneers",
-          url: "/sektorel",
-        },
-        {
-          label: "Alumni Topluluğu",
-          url: "/referanslar",
-        },
-      ],
-    },
-    {
-      id: 5,
-      label: "YGA Zirvesi",
-      url: "/peak",
-    },
-    {
-      id: 6,
-      label: "İş Birlikleri",
-      url: "/collaborations",
-      subItems: [
-        {
-          label: "The Earthshot Prize",
-          url: "/products",
-        },
-      ],
-    },
-    {
-      id: 7,
-      label: "Blog",
-      url: "https://yga.org.tr/blog/",
-      target: "_blank",
-    },
-  ];
+  const localeCookie = getCookie("NEXT_LOCALE");
+
+  useEffect(() => {
+    setMenuItems(localeCookie === "tr" ? trMenuItems : enMenuItems);
+  }, [localeCookie]);
   const [subMenuOpen, setSubMenuOpen] = useState(menuItems.map(() => false));
-  // if (typeof window !== "undefined") {
-  //   window.addEventListener("scroll", function () {
-  //     const header = document.querySelector(".fixed");
-  //     if (window.pageYOffset > 0) {
-  //       header.classList.remove("bg-transparent");
-  //       header.classList.add("bg-white");
-  //     } else {
-  //       header.classList.remove("bg-white");
-  //       header.classList.add("bg-transparent");
-  //     }
-  //     const links = document.querySelector(".links");
-  //     if (window.pageYOffset > 0) {
-  //       links.classList.remove("text-white");
-  //       links.classList.add("text-[#FD8204]");
-  //     } else {
-  //       links.classList.remove("text-[#FD8204]");
-  //       links.classList.add("text-white");
-  //     }
-  //     const button1 = document.querySelector(".button1");
-  //     if (window.pageYOffset > 0) {
-  //       button1.classList.remove("bg-transparent");
-  //       button1.classList.remove("text-white");
-  //       button1.classList.remove("border-white");
-  //       button1.classList.add("bg-white");
-  //       button1.classList.add("text-[#FD8204]");
-  //       button1.classList.add("border-[#FD8204]");
-  //     } else {
-  //       button1.classList.remove("text-[#FD8204]");
-  //       button1.classList.remove("bg-white");
-  //       button1.classList.remove("border-[#FD8204]");
-  //       button1.classList.add("text-white");
-  //       button1.classList.add("border-white");
-  //       button1.classList.add("bg-transparent");
-  //     }
-  //     const button2 = document.querySelector(".button2");
-  //     if (window.pageYOffset > 0) {
-  //       button2.classList.remove("text-black");
-  //       button2.classList.remove("border-white");
-  //       button2.classList.add("text-[#FD8204]");
-  //       button2.classList.add("border-[#FD8204]");
-  //     } else {
-  //       button2.classList.remove("text-[#FD8204]");
-  //       button2.classList.remove("border-[#FD8204]");
-  //       button2.classList.add("text-black");
-  //       button2.classList.add("border-white");
-  //     }
-  //   });
-  // }
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector(".fixed");
+      const links = document.querySelector(".links");
+      const button1 = document.querySelector(".button1");
+      const button2 = document.querySelector(".button2");
+
+      if (window.pageYOffset > 0) {
+        header.classList.remove("bg-transparent");
+        header.classList.add("bg-white");
+
+        links.classList.remove("text-white");
+        links.classList.add("text-[#FD8204]");
+
+        button1.classList.remove(
+          "bg-transparent",
+          "text-white",
+          "border-white"
+        );
+        button1.classList.add("bg-white", "text-[#FD8204]", "border-[#FD8204]");
+
+        button2.classList.remove("text-black", "border-white");
+        button2.classList.add("text-[#FD8204]", "border-[#FD8204]");
+      } else {
+        header.classList.remove("bg-white");
+        header.classList.add("bg-transparent");
+
+        links.classList.remove("text-[#FD8204]");
+        links.classList.add("text-white");
+
+        button1.classList.remove(
+          "text-[#FD8204]",
+          "bg-white",
+          "border-[#FD8204]"
+        );
+        button1.classList.add("text-white", "border-white", "bg-transparent");
+
+        button2.classList.remove("text-[#FD8204]", "border-[#FD8204]");
+        button2.classList.add("text-black", "border-white");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const SubMenu = ({ menuItem, index }) => {
     return (
       <div className="absolute w-full z-50 flex left-0 top-20 bg-white flex-col">
@@ -276,7 +151,7 @@ const Header = () => {
                               ...isOpen,
                               [menuItem.id]: !isOpen[menuItem.id],
                             });
-                            router.push(menuItem.url);
+                            menuItem.url && router.push(menuItem.url);
                           }}
                           className="text-black text-lg cursor-pointer uppercase"
                         >
@@ -286,7 +161,9 @@ const Header = () => {
                           <div className="flex flex-col gap-4 pl-4 my-4">
                             {menuItem.subItems.map((subItem, index) => (
                               <p
-                                onClick={() => router.push(subItem.url)}
+                                onClick={() =>
+                                  subItem.url && router.push(subItem.url)
+                                }
                                 key={index}
                                 className="text-black cursor-pointer"
                               >
@@ -331,7 +208,7 @@ const Header = () => {
                       }
                     }}
                     className="transition-all cursor-pointer text-lg"
-                    onClick={() => router.push(menuItem.url)}
+                    onClick={() => menuItem.url && router.push(menuItem.url)}
                   >
                     {menuItem.label}
                   </p>

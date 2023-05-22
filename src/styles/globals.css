@@ -1752,3 +1752,41 @@ iframe {
     font-weight: 500;
   }
 }
+
+
+/*KVKK PAGE*/
+.kvkk{
+  padding-left: 15rem;
+  margin-top: 3rem;
+  padding-right: 15rem;
+}
+.kvkk p{
+  padding: 1rem 0;
+  font-size: 1rem;
+}
+.kvkk span{
+  font-weight: 200;
+  color: #0a2639;
+  line-break: 1.5;
+}
+/*KVKK PAGE**/
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.photo-grid .flex {
+  flex: 0 0 33.33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.photo-grid .left {
+  order: -1;
+}
+
+.photo-grid .right {
+  order: 1;
+}

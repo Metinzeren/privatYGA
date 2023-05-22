@@ -5,7 +5,17 @@ import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const about = () => {
+// export async function getServerSideProps() {
+//   var resAbout = await fetch("https://yga.org.tr/cms/api/v1/en/page/about-us");
+//   var data = await resAbout.json();
+//   return {
+//     props: {
+//       about: data,
+//     },
+//   };
+// }
+
+const hakkimizda = () => {
   const [aboutData, setAboutData] = useState(null);
   const [activityData, setActivityData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +39,6 @@ const about = () => {
     aboutData &&
     aboutData.page.map((item) => JSON.parse(JSON.stringify(item.content)));
   const ref = useRef(null);
-  console.log(aboutData);
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -128,4 +137,15 @@ const about = () => {
   );
 };
 
-export default about;
+// export async function getServerSideProps() {
+//   const aboutData = await getAbout();
+//   const activityData = await getActivityReports();
+
+//   return {
+//     props: {
+//       aboutData,
+//       activityData,
+//     },
+//   };
+// }
+export default hakkimizda;

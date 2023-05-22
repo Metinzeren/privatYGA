@@ -6,7 +6,7 @@ import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const team = () => {
+const ofisekibi = () => {
   const [menagerTeam, setMenagerTeam] = useState(null);
   const [executiveTeam, setExecutiveTeam] = useState(null);
   const [ofisTeam, setOfisTeam] = useState(null);
@@ -31,7 +31,6 @@ const team = () => {
     };
     fetchTeam();
   }, []);
-  console.log(menagerTeam);
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -184,4 +183,4 @@ const team = () => {
   );
 };
 
-export default team;
+export default ofisekibi;

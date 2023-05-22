@@ -153,7 +153,7 @@ const Globalimpactuniversity = () => {
       )}
       {/* mobil tab */}
       <div className="hidden md:block">
-        <div className="fixed  z-50 top-10 w-full">
+        <div className="fixed  z-50 top-16 w-full">
           <div>
             <Dropdown
               value={selectionOptions.find((option) => option.id === selection)}

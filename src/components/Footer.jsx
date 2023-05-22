@@ -1,6 +1,7 @@
 import { postEmailData } from "@/API/helper";
 import { removeBlank } from "@/utils/helper";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Footer = () => {
@@ -8,7 +9,7 @@ const Footer = () => {
   const [status, setStatus] = useState({});
   const { t } = useTranslation();
   const lineWith = removeBlank(t("newslettertitle"));
-
+  const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -21,7 +22,6 @@ const Footer = () => {
       if (response) {
         setStatus(response);
       }
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -277,10 +277,17 @@ const Footer = () => {
       <div className="flex py-4 justify-between items-center md:pl-4 md:pr-4 pl-48 pr-48">
         <button>EN</button>
         <div className="flex gap-3 text-sm items-center ">
-          <a className="text-[#FD8204] decoration-1 underline cursor-pointer">
+          <p
+            onClick={() => router.push("/kvkk")}
+            className="text-[#FD8204] decoration-1 underline cursor-pointer"
+          >
             Kişisel Verilerin Korunması
-          </a>
-          <a className="text-[#FD8204] decoration-1 underline cursor-pointer">
+          </p>
+          <a
+            href="https://yga.org.tr/cms/yga_cerez_politikasi.pdf"
+            alt=""
+            className="text-[#FD8204] decoration-1 underline cursor-pointer"
+          >
             Çerez Politikası
           </a>
         </div>
