@@ -4,11 +4,13 @@ import { getProjects } from "@/API/helper";
 import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const projects = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const fetchProjects = async () => {
       setIsLoading(true);
@@ -25,6 +27,8 @@ const projects = () => {
     };
     fetchProjects();
   }, []);
+  const socialLinksData = JSON.parse(projects && projects.links);
+
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -66,12 +70,13 @@ const projects = () => {
                   {projects.desc}
                 </p>
                 <div className="flex gap-4">
-                  <a
+                  <p
+                    onClick={() => router.push("/projeler/bilimseferberligi")}
                     href=""
-                    className="px-12 md:px-8 py-4 bg-white text-black rounded-md"
+                    className="px-12 md:px-8 py-4 bg-white cursor-pointer text-black rounded-md"
                   >
                     {t("devaminioku")}
-                  </a>
+                  </p>
                   <a
                     href={projects.web_site}
                     target="_blank"
@@ -86,15 +91,23 @@ const projects = () => {
               <div className="flex flex-col">
                 <span className="text-sm text-white">Sosyal Medya</span>
                 <div className="flex gap-4 mt-4">
-                  <a href={projects.links}>
-                    <i className="pi pi-facebook text-white text-3xl"></i>
-                  </a>
-                  <a href="/">
-                    <i className="pi pi-twitter text-white text-3xl"></i>
-                  </a>
-                  <a href="/">
-                    <i className="pi pi-linkedin text-white text-3xl"></i>
-                  </a>
+                  <React.Fragment>
+                    {socialLinksData.facebook && (
+                      <a target="_blank" href={socialLinksData.facebook}>
+                        <i className="pi pi-facebook text-white text-5xl"></i>
+                      </a>
+                    )}
+                    {socialLinksData.twitter && (
+                      <a target="_blank" href={socialLinksData.twitter}>
+                        <i className="pi pi-twitter text-white text-5xl"></i>
+                      </a>
+                    )}
+                    {socialLinksData.linkedin && (
+                      <a target="_blank" href={socialLinksData.linkedin}>
+                        <i className="pi pi-linkedin text-white text-5xl"></i>
+                      </a>
+                    )}
+                  </React.Fragment>
                 </div>
               </div>
             </div>

@@ -193,7 +193,6 @@ const Header = () => {
               </div>
             </Sidebar>
           </div>
-
           {/* mobil menü */}
           <ul className="flex md:hidden gap-4 links text-white  group-hover:text-[#FD8204]">
             {menuItems.map((menuItem, index) => {

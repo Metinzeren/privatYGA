@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "primeicons/primeicons.css";
 import { getProjects } from "@/API/helper";
+import { Dialog } from "primereact/dialog";
 
 const bilimseferberligi = () => {
   const [projects, setProjects] = useState(null);
+  const [displayModal, setDisplayModal] = useState(false);
+
   useEffect(() => {
     const fetchProjects = async () => {
       await getProjects().then((res) => {
@@ -14,6 +17,8 @@ const bilimseferberligi = () => {
   }, []);
   const obj = JSON.parse(projects && projects.content);
   const ref = useRef(null);
+  const socialLinksData = JSON.parse(projects && projects.links);
+
   return (
     <div>
       {projects && (
@@ -38,12 +43,12 @@ const bilimseferberligi = () => {
                 >
                   {projects.web_site_button_text}
                 </a>
-                <a
+                <p
                   className="px-12 md:px-8 py-4 bg-orange-400 text-base text-white rounded-md"
-                  href="/"
+                  onClick={() => setDisplayModal(true)}
                 >
                   {projects.video_button_text}
-                </a>
+                </p>
               </div>
             </div>
           </div>
@@ -51,20 +56,41 @@ const bilimseferberligi = () => {
             <div className="flex flex-col">
               <span className="text-sm text-white">Paylaş</span>
               <div className="flex gap-4 mt-4">
-                <a href="/">
-                  <i className="pi pi-facebook text-white text-3xl"></i>
-                </a>
-                <a href="/">
-                  <i className="pi pi-twitter text-white text-3xl"></i>
-                </a>
-                <a href="/">
-                  <i className="pi pi-linkedin text-white text-3xl"></i>
-                </a>
+                <React.Fragment>
+                  {socialLinksData.facebook && (
+                    <a target="_blank" href={socialLinksData.facebook}>
+                      <i className="pi pi-facebook text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.twitter && (
+                    <a target="_blank" href={socialLinksData.twitter}>
+                      <i className="pi pi-twitter text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.linkedin && (
+                    <a target="_blank" href={socialLinksData.linkedin}>
+                      <i className="pi pi-linkedin text-white text-5xl"></i>
+                    </a>
+                  )}
+                </React.Fragment>
               </div>
             </div>
           </div>
         </div>
       )}
+      <Dialog
+        visible={displayModal}
+        onHide={() => setDisplayModal(false)}
+        modal
+        style={{ width: "60vw" }}
+      >
+        <iframe
+          allowFullScreen
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${projects && projects.video}`}
+        ></iframe>
+      </Dialog>
       <div className="wewalk">
         {obj &&
           obj.page.map((o, i) => (

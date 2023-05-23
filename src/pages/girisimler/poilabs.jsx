@@ -30,6 +30,7 @@ const poilabs = () => {
   }, []);
   const obj = JSON.parse(poilabsData && poilabsData.content);
   const ref = useRef(null);
+  const socialLinksData = JSON.parse(poilabsData && poilabsData.links);
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -75,15 +76,23 @@ const poilabs = () => {
             <div className="flex flex-col">
               <span className="text-sm text-white">Paylaş</span>
               <div className="flex gap-4 mt-4">
-                <a href="/">
-                  <i className="pi pi-facebook text-white text-3xl"></i>
-                </a>
-                <a href="/">
-                  <i className="pi pi-twitter text-white text-3xl"></i>
-                </a>
-                <a href="/">
-                  <i className="pi pi-linkedin text-white text-3xl"></i>
-                </a>
+                <React.Fragment>
+                  {socialLinksData.facebook && (
+                    <a target="_blank" href={socialLinksData.facebook}>
+                      <i className="pi pi-facebook text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.twitter && (
+                    <a target="_blank" href={socialLinksData.twitter}>
+                      <i className="pi pi-twitter text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.linkedin && (
+                    <a target="_blank" href={socialLinksData.linkedin}>
+                      <i className="pi pi-linkedin text-white text-5xl"></i>
+                    </a>
+                  )}
+                </React.Fragment>
               </div>
             </div>
           </div>
@@ -91,8 +100,12 @@ const poilabs = () => {
       )}
       <div className="wewalk">
         {obj &&
-          obj.page.map((o) => (
-            <div ref={ref} dangerouslySetInnerHTML={{ __html: o.content }} />
+          obj.page.map((o, i) => (
+            <div
+              ref={ref}
+              key={i}
+              dangerouslySetInnerHTML={{ __html: o.content }}
+            />
           ))}
       </div>
 
@@ -131,7 +144,10 @@ const poilabs = () => {
         >
           {poilabsData &&
             poilabsData.awards.map((item, index) => (
-              <SwiperSlide className="w-full relative  bg-white shadow-xl">
+              <SwiperSlide
+                key={index}
+                className="w-full relative  bg-white shadow-xl"
+              >
                 <div className="flex flex-col items-center  py-8">
                   <img
                     className="w-48 pb-16 object-contain"
@@ -144,18 +160,18 @@ const poilabs = () => {
                 </div>
               </SwiperSlide>
             ))}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev3 md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next3 md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
     </Loading>

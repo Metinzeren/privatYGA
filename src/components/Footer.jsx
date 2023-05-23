@@ -2,6 +2,7 @@ import { postEmailData } from "@/API/helper";
 import { removeBlank } from "@/utils/helper";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { Dropdown } from "primereact/dropdown";
 import React, { useState } from "react";
 
 const Footer = () => {
@@ -10,6 +11,10 @@ const Footer = () => {
   const { t } = useTranslation();
   const lineWith = removeBlank(t("newslettertitle"));
   const router = useRouter();
+  const locales = router.locales.map((locale) => ({
+    key: locale,
+    value: locale,
+  }));
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -275,7 +280,15 @@ const Footer = () => {
         </div>
       </footer>
       <div className="flex py-4 justify-between items-center md:pl-4 md:pr-4 pl-48 pr-48">
-        <button>EN</button>
+        <Dropdown
+          optionValue="key"
+          optionLabel="value"
+          value={router.locale}
+          options={locales}
+          onChange={(event) => {
+            router.push("/", "/", { locale: event.value });
+          }}
+        />
         <div className="flex gap-3 text-sm items-center ">
           <p
             onClick={() => router.push("/kvkk")}

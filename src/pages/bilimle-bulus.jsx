@@ -6,10 +6,12 @@ import "swiper/css";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { Dialog } from "primereact/dialog";
 
 const bilimlebulus = () => {
   const [meetData, setMeetData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [displayModal, setDisplayModal] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -28,8 +30,7 @@ const bilimlebulus = () => {
     fetchMeet();
   }, []);
   const obj = JSON.parse(meetData && meetData.content);
-  //   const objTwo =
-  //     meetData && meetData.rooms.map((item) => JSON.parse(item.content));
+  console.log(meetData);
   const ref = useRef(null);
   return (
     <Loading loading={isLoading}>
@@ -52,17 +53,32 @@ const bilimlebulus = () => {
               </h1>
               <p className="mt-4 mb-8 md:text-base text-2xl">{meetData.desc}</p>
               <div>
-                <a
-                  className="px-12 py-4 bg-orange-400 text-base text-white rounded-md"
-                  href="/"
+                <p
+                  className="px-12 md:px-12 py-4 bg-[#FD8204] cursor-pointer md:text-sm w-max text-base text-white rounded-md"
+                  onClick={() => setDisplayModal(true)}
                 >
-                  {t("tanitim")}
-                </a>
+                  Tanıtım Videosu
+                </p>
               </div>
             </div>
           </div>
         </div>
       )}
+      <Dialog
+        visible={displayModal}
+        onHide={() => setDisplayModal(false)}
+        modal
+        style={{ width: "60vw" }}
+      >
+        <iframe
+          allowFullScreen
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${
+            meetData && meetData.video_button_link
+          }`}
+        ></iframe>
+      </Dialog>
       <div>
         {obj &&
           obj.page.map((o, index) => (
@@ -109,8 +125,8 @@ const bilimlebulus = () => {
           pagination={{ clickable: true }}
           autoplay={{ delay: 2000 }}
           navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev4",
+            nextEl: ".swiper-button-next4",
           }}
           spaceBetween={0}
           breakpoints={{
@@ -169,6 +185,18 @@ const bilimlebulus = () => {
                 </div>
               </SwiperSlide>
             ))}
+          <div className="swiper-button-prev4 md:hidden absolute">
+            <i
+              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+              style={{ fontSize: "3rem" }}
+            ></i>
+          </div>
+          <div className="swiper-button-next4 md:hidden absolute">
+            <i
+              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+              style={{ fontSize: "3rem" }}
+            ></i>
+          </div>
         </Swiper>
       </div>
       <div className="director md:pl-4 md:pr-4 md:pt-16  pl-48 pr-48 mt-16 flex">

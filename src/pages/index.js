@@ -14,6 +14,7 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Loading from "@/components/Loading";
 import { getCookie } from "@/utils/common";
+import { useRouter } from "next/router";
 export default function Home() {
   const [bannerImage, setBannerImage] = useState(null);
   const [homeData, setHomeData] = useState(null);
@@ -23,6 +24,7 @@ export default function Home() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const router = useRouter();
   const { t } = useTranslation();
   useEffect(() => {
     loadData();
@@ -49,7 +51,8 @@ export default function Home() {
   };
 
   const handleSlideChange = (swiper) => {
-    setActiveSlideIndex(swiper.activeIndex);
+    const newIndex = swiper.realIndex;
+    setActiveSlideIndex(newIndex);
   };
 
   const SliderInfoBox = () => {
@@ -119,7 +122,7 @@ export default function Home() {
         <title>{homeData && homeData.meta_title}</title>
         <meta name="description" content={homeData && homeData.meta_desc} />
       </Head>
-      <div>
+      <div className="relative">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           loop={true}
@@ -155,18 +158,18 @@ export default function Home() {
               </div>
             </SwiperSlide>
           ))}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
       <div className="home1">
@@ -230,33 +233,33 @@ export default function Home() {
                       <p className="text-[#677A86] text-center text-lg">
                         {item.desc}
                       </p>
-                      <a
-                        className="px-12 py-4 bg-orange-400 text-white rounded-md"
-                        href="/"
+                      <p
+                        className="px-12 py-4 bg-orange-400 text-white rounded-md cursor-pointer"
+                        onClick={() => router.push(`/${item.slug}`)}
                       >
                         Detaylı İncele
-                      </a>
+                      </p>
                     </div>
                   </div>
                 </SwiperSlide>
               );
             })}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
       <div className="editSlider  relative">
-        <div className="absolute left-[400px] md:left-16 md:top-auto md:bottom-0  w-fit z-10 top-[300px]">
+        <div className="absolute left-[400px] md:left-16 md:top-[500px] md:bottom-0  w-fit z-10 top-[300px]">
           <SliderInfoBox />
         </div>
         <Swiper
@@ -265,8 +268,8 @@ export default function Home() {
           scrollbar={{ draggable: true }}
           pagination={{ clickable: true }}
           navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev9",
+            nextEl: ".swiper-button-next9",
           }}
           onSlideChange={handleSlideChange}
           spaceBetween={0}
@@ -287,22 +290,22 @@ export default function Home() {
                 </SwiperSlide>
               );
             })}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev9 md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
+              className="pi pi-angle-left bg-white  cursor-pointer text-green-400 rounded-full p-3"
               style={{ fontSize: "2rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next9 md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
+              className="pi pi-angle-right bg-white text-green-400 rounded-full p-3"
               style={{ fontSize: "2rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
 
-      <div className="w-full md:flex-col md:pl-4 md:pr-4 flex items-center pl-48 pr-48">
+      <div className="w-full md:flex-col md:pl-4 md:pr-4 flex md:mt-44 items-center pl-48 pr-48">
         <div className="w-1/2 md:w-full md:hidden p-16">
           <img
             className="w-full object-contain"
@@ -370,8 +373,8 @@ export default function Home() {
           pagination={{ clickable: true }}
           autoplay={{ delay: 2000 }}
           navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev2",
+            nextEl: ".swiper-button-next2",
           }}
           spaceBetween={50}
           breakpoints={{
@@ -409,18 +412,18 @@ export default function Home() {
                   </div>
                 </SwiperSlide>
               ))}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev2 md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next2 md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
     </Loading>

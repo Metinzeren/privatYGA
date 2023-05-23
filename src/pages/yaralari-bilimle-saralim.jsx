@@ -52,8 +52,9 @@ const earthquake = () => {
           tutunabilecekleri güçlü bir dal vermek çok önemli.
         </p>
         <a
+          target="_blank"
           className="px-12 py-4 bg-orange-400 text-base text-white font-bold rounded-md"
-          href="/"
+          href="https://fonzip.com/yga/cocuklarin-gorunmeyen-yaralarini-vicdanli-bilimle-saralim"
         >
           Bağış için tıklayın
         </a>
@@ -238,18 +239,18 @@ const earthquake = () => {
                 </div>
               </SwiperSlide>
             ))}
-            {/* <div className="swiper-button-prev md:hidden">
-            <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div>
-          <div className="swiper-button-next md:hidden">
-            <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div> */}
+            <div className="swiper-button-prev md:hidden absolute">
+              <i
+                className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+                style={{ fontSize: "3rem" }}
+              ></i>
+            </div>
+            <div className="swiper-button-next md:hidden absolute">
+              <i
+                className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+                style={{ fontSize: "3rem" }}
+              ></i>
+            </div>
           </Swiper>
         </div>
       </div>
@@ -312,18 +313,26 @@ const earthquake = () => {
       </div>
       <div className="pl-48 pr-48 flex flex-col gap-5 mb-16">
         <h1 className="text-3xl">Kredi Kartı ile Online Bağış:</h1>
-        <div className="flex gap-3 font-bold">
-          <a href="" className="border-r-2 font-light border-[#122B3E] pr-2">
+        <div className="flex gap-3 decoration underline font-bold">
+          <a
+            href="https://fonzip.com/yga/cocuklarin-gorunmeyen-yaralarini-vicdanli-bilimle-saralim"
+            className="border-r-2 font-light border-[#122B3E] pr-2"
+          >
             Depremzede Çocukların Yaralarını Bilimle Saralım!
           </a>
-          <a href="" className="border-r-2 font-light border-[#122B3E] pr-2">
+          <a
+            href="https://fonzip.com/yga/fundraising-campaigns/depremzede-cocuklara-bilimi-sevdirelim--"
+            className="border-r-2 font-light border-[#122B3E] pr-2"
+          >
             YGA
           </a>
-          <a href="">Fonzip</a>
+          <a href="https://fonzip.com/yga/fundraising-campaigns/depremzede-cocuklara-bilimi-sevdirelim--">
+            Fonzip
+          </a>
         </div>
         <p>
           Bilim Gönüllüsü olmak için{" "}
-          <a className="font-bold" href="">
+          <a className="font-bold" href="mailto:didem.cevik@yga.org.tr">
             didem.cevik@yga.org.tr
           </a>
           (Didem Çevik, Bilim Seferberliği Proje Lideri) adresine e-posta atarak
@@ -332,7 +341,7 @@ const earthquake = () => {
         <h1 className="text-3xl">Kurumsal Bağış ve Destek:</h1>
         <p>
           Kurumsal iş birlikleri, bağışlar ve fonlar için{" "}
-          <a href="" className="font-bold">
+          <a href="mailto:ahmet.tonel@yga.org.tr" className="font-bold">
             {" "}
             ahmet.tonel@yga.{" "}
           </a>{" "}

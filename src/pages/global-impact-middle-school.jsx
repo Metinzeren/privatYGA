@@ -92,6 +92,7 @@ const globalimpatmiddleschool = () => {
     }
   };
   const convertIframeToVideoUrl = (iframeUrl) => removeSrc(iframeUrl);
+  const socialLinksData = JSON.parse(middleData && middleData.links);
 
   const FaqPage = ({ faq }) => {
     return (
@@ -235,6 +236,30 @@ const globalimpatmiddleschool = () => {
               ))}
             </div>
           </div>
+          <div className="absolute md:bottom-6 md:right-0 md:left-6 bottom-20 right-48">
+            <div className="flex flex-col">
+              <span className="text-sm text-white">Paylaş</span>
+              <div className="flex gap-4 mt-4">
+                <React.Fragment>
+                  {socialLinksData.facebook && (
+                    <a target="_blank" href={socialLinksData.facebook}>
+                      <i className="pi pi-facebook text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.twitter && (
+                    <a target="_blank" href={socialLinksData.twitter}>
+                      <i className="pi pi-twitter text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.linkedin && (
+                    <a target="_blank" href={socialLinksData.linkedin}>
+                      <i className="pi pi-linkedin text-white text-5xl"></i>
+                    </a>
+                  )}
+                </React.Fragment>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {/* mobil tab */}
@@ -296,8 +321,8 @@ const globalimpatmiddleschool = () => {
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 2000 }}
                     navigation={{
-                      prevEl: ".swiper-button-prev",
-                      nextEl: ".swiper-button-next",
+                      prevEl: ".swiper-button-prev4",
+                      nextEl: ".swiper-button-next4",
                     }}
                     spaceBetween={0}
                     breakpoints={{
@@ -343,18 +368,18 @@ const globalimpatmiddleschool = () => {
                           </div>
                         </SwiperSlide>
                       ))}
-                    {/* <div className="swiper-button-prev md:hidden">
-            <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div>
-          <div className="swiper-button-next md:hidden">
-            <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div> */}
+                    <div className="swiper-button-prev4 md:hidden absolute">
+                      <i
+                        className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+                        style={{ fontSize: "3rem" }}
+                      ></i>
+                    </div>
+                    <div className="swiper-button-next4 md:hidden absolute">
+                      <i
+                        className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+                        style={{ fontSize: "3rem" }}
+                      ></i>
+                    </div>
                   </Swiper>
                 </div>
               </div>
@@ -432,8 +457,8 @@ const globalimpatmiddleschool = () => {
                     pagination={{ clickable: true }}
                     autoplay={{ delay: 2000 }}
                     navigation={{
-                      prevEl: ".swiper-button-prev",
-                      nextEl: ".swiper-button-next",
+                      prevEl: ".swiper-button-prev4",
+                      nextEl: ".swiper-button-next4",
                     }}
                     spaceBetween={0}
                     breakpoints={{
@@ -499,18 +524,18 @@ const globalimpatmiddleschool = () => {
                           </div>
                         </SwiperSlide>
                       ))}
-                    {/* <div className="swiper-button-prev md:hidden">
-            <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div>
-          <div className="swiper-button-next md:hidden">
-            <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div> */}
+                    <div className="swiper-button-prev4 md:hidden absolute">
+                      <i
+                        className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+                        style={{ fontSize: "3rem" }}
+                      ></i>
+                    </div>
+                    <div className="swiper-button-next4 md:hidden absolute">
+                      <i
+                        className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+                        style={{ fontSize: "3rem" }}
+                      ></i>
+                    </div>
                   </Swiper>
                 </div>
               </div>
@@ -695,18 +720,18 @@ const globalimpatmiddleschool = () => {
                     </div>
                   </SwiperSlide>
                 ))}
-              {/* <div className="swiper-button-prev md:hidden">
-            <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div>
-          <div className="swiper-button-next md:hidden">
-            <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div> */}
+              <div className="swiper-button-prev md:hidden absolute">
+                <i
+                  className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+                  style={{ fontSize: "3rem" }}
+                ></i>
+              </div>
+              <div className="swiper-button-next md:hidden absolute">
+                <i
+                  className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+                  style={{ fontSize: "3rem" }}
+                ></i>
+              </div>
             </Swiper>
           </div>
         </div>

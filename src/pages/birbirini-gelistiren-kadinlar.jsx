@@ -1,4 +1,5 @@
 import { getEmpWoman } from "@/API/helper";
+import KayıtOl from "@/components/KayıtOl";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
@@ -35,13 +36,10 @@ const empwoman = () => {
             src={womanData.image_background}
             alt=""
           />
-          <div className="absolute top-[30rem] md:top-[26rem] md:right-[25%] right-[45%]">
-            <a
-              className="px-12 py-4 bg-orange-400 text-base text-white rounded-md"
-              href="/"
-            >
-              {t("hemenBasvur")}
-            </a>
+          <div className="absolute top-[30rem] md:top-[26rem] md:right-[34%] right-[46%]">
+            <button className="px-12 text-white py-2 button2 transition-all bg-[#FD8204] rounded text-lg ">
+              <KayıtOl name={t("basvur")} />
+            </button>
           </div>
         </div>
       )}

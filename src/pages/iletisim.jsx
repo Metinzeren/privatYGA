@@ -2,6 +2,7 @@ import { contactAdress, postContact } from "@/API/helper";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const iletisim = () => {
@@ -13,10 +14,10 @@ const iletisim = () => {
     consent: false,
   });
   const [status, setStatus] = useState({});
-  //kanka loading var da çok kısa sürüyor nerde
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [adress, setAdress] = useState(null);
+  const router = useRouter();
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     setFormData({
@@ -24,7 +25,6 @@ const iletisim = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
-  // dur burdan niye kayit ol sayfasını görüyor anlamadım hata orda ama niye buraya gelince onu söylüyor  bence buraya özewl değil rasgele sayfada oluyor nereye denk gelirse gibi geliyor bana
   useEffect(() => {
     const fetchContactAdress = async () => {
       setIsLoading(true);
@@ -148,19 +148,29 @@ const iletisim = () => {
                 required
               ></textarea>
             </div>
-            <div className="form-group flex items-center">
-              <input
-                type="checkbox"
-                id="consent"
-                name="consent"
-                checked={formData.consent}
-                onChange={handleInputChange}
-                required
-              />
-              <label htmlFor="consent">
-                Kişisel verilerin korunması ve işlemesine ilişkin politikayı
-                okudum onaylıyorum.
-              </label>
+            <div className="form-group text-xs font-extralight">
+              <div className="flex gap-3 justify-start items-center">
+                <div>
+                  <input
+                    className="rounded-full w-6 h-6"
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    checked={formData.consent}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <label className="text-gray-500" htmlFor="consent">
+                  <span
+                    onClick={() => router.push("/kvkk")}
+                    className="decoration underline"
+                  >
+                    {t("kvkktext")}
+                  </span>
+                  okudum onaylıyorum.
+                </label>
+              </div>
             </div>
             <div className="mt-4">
               <button

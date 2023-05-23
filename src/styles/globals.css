@@ -28,7 +28,7 @@
 }
 .swiper-button-next {
   position: absolute;
-  top: 90%;
+  top: 50%;
   width: 30px;
   height: 30px;
   margin-top: -15px;
@@ -40,7 +40,7 @@
 }
 .swiper-button-prev{
   position: absolute;
-  top: 90%;
+  top: 50%;
   width: 30px;
   height: 30px;
   margin-top: -15px;
@@ -48,9 +48,179 @@
   cursor: pointer;
   background-size: 30px 30px;
   background-repeat: no-repeat;
-  right: 105px;
+  left: 10px;
+}
+/* @media (max-width: 767px){
+  .swiper-button-next {
+    top: 0px !important;
+    right: 0px !important;
+    z-index: 9999;
+  }
+  .swiper-button-prev{
+    top: 50%;
+    left: 10px;
+  }
+} */
+.swiper-button-next2 {
+  position: absolute;
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  right:20px;
+}
+.swiper-button-prev2{
+  position: absolute;
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 0px;
+}
+.swiper-button-next3 {
+  position: absolute;
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  right:40px;
+}
+.swiper-button-prev3{
+  position: absolute;
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 0px;
+}
+.swiper-button-next4 {
+  position: absolute;
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  right:20px;
+}
+.swiper-button-prev4{
+  position: absolute;
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: -25px;
 }
 
+.swiper-button-next5 {
+  position: absolute;
+  top: 30%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  right: 40px;
+}
+.swiper-button-prev5{
+  position: absolute;
+  top: 30%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 10px;
+}
+.swiper-button-next6 {
+  position: absolute;
+  top: 40%;
+  margin-top: -15px;
+  z-index: 20;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 740px;
+}
+.swiper-button-prev6{
+  position: absolute;
+  top: 40%;
+  margin-top: -15px;
+  z-index: 20;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 350px;
+}
+.swiper-button-next9 {
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  z-index: 20;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 740px;
+}
+.swiper-button-prev9{
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  z-index: 20;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 350px;
+}
+.swiper-button-next11 {
+  position: absolute;
+  top: 33%;
+  margin-top: -15px;
+  z-index: 20;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 740px;
+}
+.swiper-button-prev11{
+  position: absolute;
+  top: 33%;
+  margin-top: -15px;
+  z-index: 20;
+  cursor: pointer;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  left: 350px;
+}
+.inactive-slide {
+  opacity: 0.5; /* Opaklık değerini düşürme */
+}
 body {
 
 }

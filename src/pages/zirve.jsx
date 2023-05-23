@@ -29,6 +29,7 @@ const peak = () => {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
   const { t } = useTranslation();
+
   const handleImageClick = (item) => {
     setSelectedItem(item);
     setVisible(true);
@@ -69,7 +70,7 @@ const peak = () => {
     const isFind =
       speakerData && speakerData.find((c, i) => i === activeSlideIndex);
     return (
-      <div className="bg-[#0a23fa] p-10 w-[350px] h-max rounded-xl">
+      <div className="bg-[#0a23fa] p-10 w-[350px] h-[160px] rounded-xl">
         <div className="text-white">
           <h1>{isFind && isFind.name_surname}</h1>
           <h1>{isFind && isFind.title}</h1>
@@ -82,6 +83,7 @@ const peak = () => {
     summitData &&
     summitData.page.map((item) => JSON.parse(JSON.stringify(item.content)));
   const ref = useRef(null);
+
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -246,6 +248,7 @@ const peak = () => {
         visible={displayModal}
         onHide={() => setDisplayModal(false)}
         modal
+        style={{ width: "60vw" }}
       >
         {selectedVideo && (
           <iframe
@@ -276,8 +279,8 @@ const peak = () => {
           scrollbar={{ draggable: true }}
           pagination={{ clickable: true }}
           navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev11",
+            nextEl: ".swiper-button-next11",
           }}
           onSlideChange={handleSlideChange}
           spaceBetween={50}
@@ -310,18 +313,18 @@ const peak = () => {
                 </SwiperSlide>
               );
             })}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev11 md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
+              className="pi pi-angle-left bg-white  cursor-pointer text-green-400 rounded-full p-3"
               style={{ fontSize: "2rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next11 md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
+              className="pi pi-angle-right bg-white text-green-400 rounded-full p-3"
               style={{ fontSize: "2rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
       <div className="pl-48 pr-48 md:pl-4 md:pr-4 flex flex-col items-center mt-48 mb-16">

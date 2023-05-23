@@ -9,39 +9,36 @@ import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
 import Head from "next/head";
 import { Dialog } from "primereact/dialog";
+import { useTranslation } from "next-i18next";
+import Loading from "@/components/Loading";
 const earthshot = () => {
   const [earthquakeDatas, setEarthquakeDatas] = useState(null);
   const [earthSliderData, setEarthSliderData] = useState(null);
   const [advistoryData, setAdvistoryData] = useState(null);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [displayModal, setDisplayModal] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchEarthquake = async () => {
-      await getEarthShotPage().then((res) => {
-        setEarthquakeDatas(res.data);
-      });
-    };
-    fetchEarthquake();
+    loadData();
   }, []);
 
-  useEffect(() => {
-    const fetchEarthSlider = async () => {
-      await getEartshotSlider().then((res) => {
-        setEarthSliderData(res.data);
-      });
-    };
-    fetchEarthSlider();
-  }, []);
+  const loadData = async () => {
+    setIsLoading(true);
+    await getEarthShotPage().then((res) => {
+      setEarthquakeDatas(res.data);
+    });
+    await getEartshotSlider().then((res) => {
+      setEarthSliderData(res.data);
+    });
+    await getAdvistory().then((res) => {
+      setAdvistoryData(res.data);
+    });
+    setIsLoading(false);
+  };
 
-  useEffect(() => {
-    const fetchAdvistory = async () => {
-      await getAdvistory().then((res) => {
-        setAdvistoryData(res.data);
-      });
-    };
-    fetchAdvistory();
-  }, []);
   const obj =
     earthquakeDatas &&
     earthquakeDatas.page.map((item) =>
@@ -54,6 +51,7 @@ const earthshot = () => {
   const handleSlideChange = (swiper) => {
     const newIndex = swiper.realIndex;
     setActiveSlideIndex(newIndex);
+    setActiveSlide(swiper.activeIndex);
   };
 
   const SliderInfoBox = () => {
@@ -71,7 +69,7 @@ const earthshot = () => {
   };
 
   return (
-    <div>
+    <Loading loading={isLoading}>
       <Head>
         <title>{earthquakeDatas && earthquakeDatas.meta_title}</title>
         <meta
@@ -86,7 +84,7 @@ const earthshot = () => {
             src={earthquakeDatas.bg_image}
             alt=""
           />
-          <div className="absolute  md:top-64 md:left-0 top-96 left-48">
+          <div className="absolute  md:top-64 md:left-8 top-80 right-64">
             <img
               src={earthquakeDatas.image}
               alt=""
@@ -103,13 +101,13 @@ const earthshot = () => {
             <div className="flex gap-3 mt-5">
               <a
                 target="_blank"
-                className="px-12 md:px-8 py-4 bg-[#FD8204] text-base text-white rounded-md"
+                className="px-12 md:px-12 py-4 bg-[#FD8204] text-base md:text-sm text-white rounded-md"
                 href={earthquakeDatas.web_site_link}
               >
                 Earthshot Prize
               </a>
               <p
-                className="px-12 md:px-8 py-4 bg-[#FD8204]  text-base text-white rounded-md"
+                className="px-12 md:px-12 py-4 bg-[#FD8204] cursor-pointer md:text-sm  text-base text-white rounded-md"
                 onClick={() => setDisplayModal(true)}
               >
                 Tanıtım Videosu
@@ -122,7 +120,7 @@ const earthshot = () => {
         visible={displayModal}
         onHide={() => setDisplayModal(false)}
         modal
-        style={{ width: "50vw" }}
+        style={{ width: "60vw" }}
       >
         <iframe
           allowFullScreen
@@ -174,21 +172,24 @@ const earthshot = () => {
                 </div>
               </SwiperSlide>
             ))}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
+              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+              style={{ fontSize: "3rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
-
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 mt-16">
+        <h1 className="text-4xl font-bold text-[#0a23fa]">{t("earthtitle")}</h1>
+        <p className="text-base font-light">{t("earthtext")}</p>
+      </div>
       <div className="editSlider relative mb-16">
         <div className="relative md:left-8 left-[400px] md:top-[630px] w-fit z-10 top-[300px]">
           <SliderInfoBox />
@@ -199,11 +200,12 @@ const earthshot = () => {
           scrollbar={{ draggable: true }}
           pagination={{ clickable: true }}
           navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev6",
+            nextEl: ".swiper-button-next6",
           }}
           onSlideChange={handleSlideChange}
           spaceBetween={50}
+          centeredSlides={true}
           breakpoints={{
             0: {
               slidesPerView: 1,
@@ -221,8 +223,10 @@ const earthshot = () => {
         >
           {advistoryData &&
             advistoryData.map((item, index) => {
+              const slideClassName =
+                index === activeSlide ? "active-slide" : "inactive-slide";
               return (
-                <SwiperSlide key={index} className="w-full">
+                <SwiperSlide key={index} className={`w-full ${slideClassName}`}>
                   <div className="">
                     <img
                       className="w-full md:h-[70vh] object-cover"
@@ -233,21 +237,21 @@ const earthshot = () => {
                 </SwiperSlide>
               );
             })}
-          {/* <div className="swiper-button-prev md:hidden">
+          <div className="swiper-button-prev6 md:hidden absolute">
             <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
+              className="pi pi-angle-left bg-white  cursor-pointer text-green-400 rounded-full p-3"
               style={{ fontSize: "2rem" }}
             ></i>
           </div>
-          <div className="swiper-button-next md:hidden">
+          <div className="swiper-button-next6 md:hidden absolute">
             <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
+              className="pi pi-angle-right bg-white text-green-400 rounded-full p-3"
               style={{ fontSize: "2rem" }}
             ></i>
-          </div> */}
+          </div>
         </Swiper>
       </div>
-    </div>
+    </Loading>
   );
 };
 

@@ -109,6 +109,8 @@ const Globalimpactuniversity = () => {
   };
   const itemDescWithLineBreaks =
     uniData && uniData.title.replace(/<br\s*\/?>/g, "<br/>");
+  const socialLinksData = JSON.parse(uniData && uniData.links);
+
   return (
     <Loading loading={isLoading}>
       <Head>
@@ -147,6 +149,30 @@ const Globalimpactuniversity = () => {
                   {item.button}
                 </button>
               ))}
+            </div>
+          </div>
+          <div className="absolute  bottom-20 right-48">
+            <div className="flex flex-col">
+              <span className="text-sm text-white">Paylaş</span>
+              <div className="flex gap-4 mt-4">
+                <React.Fragment>
+                  {socialLinksData.facebook && (
+                    <a target="_blank" href={socialLinksData.facebook}>
+                      <i className="pi pi-facebook text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.twitter && (
+                    <a target="_blank" href={socialLinksData.twitter}>
+                      <i className="pi pi-twitter text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.linkedin && (
+                    <a target="_blank" href={socialLinksData.linkedin}>
+                      <i className="pi pi-linkedin text-white text-5xl"></i>
+                    </a>
+                  )}
+                </React.Fragment>
+              </div>
             </div>
           </div>
         </div>

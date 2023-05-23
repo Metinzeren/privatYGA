@@ -19,6 +19,3 @@ export default async function handler(req, res) {
     }
   }
 }
-//hayır kanka json dosyası nerde sen burda datayı alıp json olarak döndürüoyrsun bak şimdi
-// console bak dosyayı bulamıyor sonra apiden yanıt gelince buluyor bunun sonucu nereye dönyüor ? tam bilmiyorum kanka bunla alakalaı sayfaları göstereyim zaten 2 3 tane yok gerek yok
-//su menuyu diger tarafa al

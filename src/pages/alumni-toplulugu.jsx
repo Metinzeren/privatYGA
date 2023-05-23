@@ -67,6 +67,8 @@ const alumni = () => {
   const obj = JSON.parse(almuniData && almuniData.content);
   const ref = useRef(null);
   const itemDescWithLineBreaks = almuniData && removeBlank(almuniData.title);
+  const socialLinksData = JSON.parse(almuniData && almuniData.links);
+
   const FaqPage = ({ faq }) => {
     return (
       <div className="pl-48 md:pl-4 md:pr-4 pr-48 md:mb-16 mt-16">
@@ -155,6 +157,30 @@ const alumni = () => {
               ))}
             </div>
           </div>
+          <div className="absolute  bottom-20 right-48">
+            <div className="flex flex-col">
+              <span className="text-sm text-white">Paylaş</span>
+              <div className="flex gap-4 mt-4">
+                <React.Fragment>
+                  {socialLinksData.facebook && (
+                    <a target="_blank" href={socialLinksData.facebook}>
+                      <i className="pi pi-facebook text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.twitter && (
+                    <a target="_blank" href={socialLinksData.twitter}>
+                      <i className="pi pi-twitter text-white text-5xl"></i>
+                    </a>
+                  )}
+                  {socialLinksData.linkedin && (
+                    <a target="_blank" href={socialLinksData.linkedin}>
+                      <i className="pi pi-linkedin text-white text-5xl"></i>
+                    </a>
+                  )}
+                </React.Fragment>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {/* mobil tab */}
@@ -203,7 +229,7 @@ const alumni = () => {
                             );
                           })}
                       </div>
-                      <div className="pl-48 md:pl-4 md:pr-4 pr-48 mt-36 mb-36">
+                      <div className="pl-48 md:pl-4 md:pr-4 pr-48  mt-36 mb-36">
                         <h1 className="text-4xl text-[#FD8204] font-medium mb-12 text-center">
                           {t("aluwork")}
                         </h1>
@@ -223,7 +249,7 @@ const alumni = () => {
                             prevEl: ".swiper-button-prev",
                             nextEl: ".swiper-button-next",
                           }}
-                          spaceBetween={50}
+                          spaceBetween={0}
                           breakpoints={{
                             0: {
                               slidesPerView: 2,
@@ -243,25 +269,29 @@ const alumni = () => {
                             almuniData.logos
                               .filter((i) => i.type === "work")
                               .map((item, index) => (
-                                <SwiperSlide className="w-full" key={index}>
-                                  <img
-                                    src={item.image}
-                                    alt={item.image_alt_title}
-                                  />
+                                <SwiperSlide key={index}>
+                                  <div className="flex items-center justify-center">
+                                    <img
+                                      className="w-38"
+                                      src={item.image}
+                                      alt={item.image_alt_title}
+                                    />
+                                  </div>
                                 </SwiperSlide>
                               ))}
-                          {/* <div className="swiper-button-prev md:hidden">
-            <i
-              className="pi pi-angle-left bg-[#52B846] cursor-pointer text-white rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div>
-          <div className="swiper-button-next md:hidden">
-            <i
-              className="pi pi-angle-right bg-[#52B846] text-white  rounded-full p-3"
-              style={{ fontSize: "2rem" }}
-            ></i>
-          </div> */}
+
+                          <div className="swiper-button-prev5 md:hidden absolute">
+                            <i
+                              className="pi pi-angle-left bg-transparent cursor-pointer text-[#FD8204] rounded-full p-3"
+                              style={{ fontSize: "3rem" }}
+                            ></i>
+                          </div>
+                          <div className="swiper-button-next5 md:hidden absolute">
+                            <i
+                              className="pi pi-angle-right bg-transparent text-[#FD8204]  rounded-full p-3"
+                              style={{ fontSize: "3rem" }}
+                            ></i>
+                          </div>
                         </Swiper>
                       </div>
                       <div className="pl-48 md:pl-4 md:pr-4 pr-48 mt-36 ">

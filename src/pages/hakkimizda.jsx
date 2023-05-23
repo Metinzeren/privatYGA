@@ -137,15 +137,4 @@ const hakkimizda = () => {
   );
 };
 
-// export async function getServerSideProps() {
-//   const aboutData = await getAbout();
-//   const activityData = await getActivityReports();
-
-//   return {
-//     props: {
-//       aboutData,
-//       activityData,
-//     },
-//   };
-// }
 export default hakkimizda;
