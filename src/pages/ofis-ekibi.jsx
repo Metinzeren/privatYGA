@@ -5,6 +5,7 @@ import YgalıOl from "@/components/YgalıOl";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { getCookie } from "@/utils/common";
 
 const ofisekibi = () => {
   const [menagerTeam, setMenagerTeam] = useState(null);
@@ -12,6 +13,7 @@ const ofisekibi = () => {
   const [ofisTeam, setOfisTeam] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
+  const localeCookie = getCookie("NEXT_LOCALE");
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -45,10 +47,13 @@ const ofisekibi = () => {
         />
         <div className="absolute  md:top-64 md:left-0 top-96 left-48">
           <div className="text-white md:pl-4 md:pr-4 flex flex-col gap-2 w-[600px] md:w-full">
-            <h1 className="text-6xl font-bold">Ofis Ekibi</h1>
+            <h1 className="text-6xl font-bold">
+              {localeCookie === "tr" ? "Ofis Ekibi" : "Office Team"}
+            </h1>
             <p className="mt-8 text-2xl">
-              YGA’lı gençler kanatlarını, insanlığa faydalı teknoloji temelli
-              inovasyonları hayata geçirirken geliştirirler.
+              {localeCookie === "tr"
+                ? "YGA’lı gençler kanatlarını, insanlığa faydalı teknoloji temelli inovasyonları hayata geçirirken geliştirirler."
+                : null}
             </p>
           </div>
         </div>

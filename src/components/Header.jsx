@@ -24,7 +24,10 @@ const Header = () => {
   useEffect(() => {
     setMenuItems(localeCookie === "tr" ? trMenuItems : enMenuItems);
   }, [localeCookie]);
-  const [subMenuOpen, setSubMenuOpen] = useState(menuItems.map(() => false));
+  const [subMenuOpen, setSubMenuOpen] = useState(
+    new Array(menuItems.length).fill(false)
+  );
+
   useEffect(() => {
     const handleScroll = () => {
       const header = document.querySelector(".fixed");
@@ -38,7 +41,6 @@ const Header = () => {
 
         links.classList.remove("text-white");
         links.classList.add("text-[#FD8204]");
-
         button1.classList.remove(
           "bg-transparent",
           "text-white",
@@ -73,14 +75,14 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const SubMenu = ({ menuItem, index }) => {
+  const SubMenu = ({ menuItem, subIndex, subMenuOpen }) => {
     return (
       <div className="absolute w-full z-50 flex left-0 top-20 bg-white flex-col">
-        {subMenuOpen[index] && (
+        {subMenuOpen[subIndex] && (
           <div
-            onMouseLeave={() => {
+            onMouseOut={() => {
               const newSubMenuOpen = [...subMenuOpen];
-              newSubMenuOpen[index] = false;
+              newSubMenuOpen[subIndex] = false;
               setSubMenuOpen(newSubMenuOpen);
             }}
             className="flex justify-evenly h-64"
@@ -92,8 +94,8 @@ const Header = () => {
                 insanlığa faydalı ilklere imza atar.
               </h1>
             </div>
-            <div className="flex flex-col items-center justify-center">
-              {subMenuOpen[index] &&
+            <div className="w-[30rem] flex flex-col justify-center">
+              {subMenuOpen[subIndex] &&
                 menuItem.subItems.map((item, index) => {
                   return (
                     <p
@@ -111,6 +113,7 @@ const Header = () => {
       </div>
     );
   };
+
   return (
     <div className=" w-full p-0 z-50 fixed group hover:bg-white bg-transparent top-0 transition-all">
       <div className="flex md:bg-white justify-evenly md:justify-between md:px-4 relative items-center gap-12 py-4">
@@ -194,15 +197,22 @@ const Header = () => {
             </Sidebar>
           </div>
           {/* mobil menü */}
-          <ul className="flex md:hidden gap-4 links text-white  group-hover:text-[#FD8204]">
+          <div className="flex md:hidden gap-4 links text-white group-hover:text-[#FD8204]">
             {menuItems.map((menuItem, index) => {
               return (
-                <li key={index}>
+                <div key={index}>
                   <p
                     onMouseOver={() => {
                       if (menuItem.subItems) {
-                        const newSubMenuOpen = [...subMenuOpen];
+                        const newSubMenuOpen = new Array(menuItems.length).fill(
+                          false
+                        );
                         newSubMenuOpen[index] = true;
+                        setSubMenuOpen(newSubMenuOpen);
+                      } else {
+                        const newSubMenuOpen = new Array(menuItems.length).fill(
+                          false
+                        );
                         setSubMenuOpen(newSubMenuOpen);
                       }
                     }}
@@ -213,15 +223,19 @@ const Header = () => {
                   </p>
                   <ul className="">
                     <li>
-                      {menuItem.subItems && (
-                        <SubMenu menuItem={menuItem} index={index} />
+                      {menuItem.subItems && menuItem.subItems.length > 0 && (
+                        <SubMenu
+                          menuItem={menuItem}
+                          subIndex={index}
+                          subMenuOpen={subMenuOpen}
+                        />
                       )}
                     </li>
                   </ul>
-                </li>
+                </div>
               );
             })}
-          </ul>
+          </div>
         </div>
         <div className="flex md:hidden gap-4">
           <a

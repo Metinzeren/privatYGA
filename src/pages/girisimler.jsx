@@ -3,19 +3,33 @@ import "primeicons/primeicons.css";
 import { getAllProjects } from "@/API/helper";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { getCookie } from "@/utils/common";
+import Loading from "@/components/Loading";
 const girisimler = () => {
   const [projectsData, setProjectsData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
+  const router = useRouter();
+  const localeCookie = getCookie("NEXT_LOCALE");
   useEffect(() => {
+    setIsLoading(true);
     const fetchProjets = async () => {
       await getAllProjects().then((res) => {
         setProjectsData(res.data.data);
       });
     };
     fetchProjets();
+    setIsLoading(false);
   }, []);
+  const navigateToDetails = (slug) => {
+    const basePath = localeCookie === "tr" ? "/girisimler" : "/ventures";
+    const url = `${basePath}/${slug}`;
+    router.push(url);
+  };
+
   return (
-    <div>
+    <Loading loading={isLoading}>
       <Head>
         <title>YGA - Girişimleri</title>
         <meta name="description" content="YGA - Girişimleri" />
@@ -39,6 +53,7 @@ const girisimler = () => {
           projectsData
             .filter((item) => item.detail.project_type === "initiatives")
             .map((item, index) => {
+              const socialLinksData = JSON.parse(item.detail.links);
               return (
                 <div id={"init" + index} key={index} className="relative">
                   <div className="w-full">
@@ -57,14 +72,15 @@ const girisimler = () => {
                       </h1>
                       <p>{item.detail.desc}</p>
                       <div className="flex gap-4">
-                        <a
-                          href={item.detail.slug}
+                        <p
+                          onClick={() => navigateToDetails(item.detail.slug)}
                           className="px-12 py-4 bg-white text-black rounded-md"
                         >
                           Devamını Oku
-                        </a>
+                        </p>
                         <a
                           href={item.detail.web_site_link}
+                          target="_blank"
                           className="px-12 py-4 bg-transparent border-2 border-white text-white rounded-md"
                         >
                           Web Sitesi
@@ -76,15 +92,23 @@ const girisimler = () => {
                     <div className="flex flex-col">
                       <span className="text-sm text-white">Sosyal Medya</span>
                       <div className="flex gap-4 mt-4">
-                        <a href="/">
-                          <i className="pi pi-facebook text-white text-3xl"></i>
-                        </a>
-                        <a href="/">
-                          <i className="pi pi-twitter text-white text-3xl"></i>
-                        </a>
-                        <a href="/">
-                          <i className="pi pi-linkedin text-white text-3xl"></i>
-                        </a>
+                        <React.Fragment>
+                          {socialLinksData.facebook && (
+                            <a target="_blank" href={socialLinksData.facebook}>
+                              <i className="pi pi-facebook text-white text-5xl"></i>
+                            </a>
+                          )}
+                          {socialLinksData.twitter && (
+                            <a target="_blank" href={socialLinksData.twitter}>
+                              <i className="pi pi-twitter text-white text-5xl"></i>
+                            </a>
+                          )}
+                          {socialLinksData.linkedin && (
+                            <a target="_blank" href={socialLinksData.linkedin}>
+                              <i className="pi pi-linkedin text-white text-5xl"></i>
+                            </a>
+                          )}
+                        </React.Fragment>
                       </div>
                     </div>
                   </div>
@@ -92,7 +116,7 @@ const girisimler = () => {
               );
             })}
       </div>
-    </div>
+    </Loading>
   );
 };
 

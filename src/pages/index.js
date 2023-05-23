@@ -144,7 +144,7 @@ export default function Home() {
                   src={isMobile ? item.mobile_image : item.bg_image}
                   alt={`Slide ${index}`}
                 />
-                <div className="absolute top-[50%] md:top-[72%] md:right-[25%] right-[44%]">
+                <div className="absolute top-[50%] md:top-[72%] md:right-[23%] right-[44%]">
                   {item.link && (
                     <a
                       target="_blank"

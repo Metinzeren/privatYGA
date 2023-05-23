@@ -87,7 +87,7 @@ const projects = () => {
                 </div>
               </div>
             </div>
-            <div className="absolute  bottom-24 left-48">
+            <div className="absolute md:left-8 bottom-24 left-48">
               <div className="flex flex-col">
                 <span className="text-sm text-white">Sosyal Medya</span>
                 <div className="flex gap-4 mt-4">
