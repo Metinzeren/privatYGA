@@ -5,25 +5,37 @@ import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
 
-const finansallar = () => {
-  const [financialData, setFinancialData] = useState(null);
-  const [activityData, setActivityData] = useState(null);
-  const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    loadData();
-  }, []);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resFinancial = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/page/financials`
+  );
+  var data = await resFinancial.json();
 
-  const loadData = async () => {
-    setIsLoading(true);
-    await getFinancials().then((res) => {
-      setFinancialData(res.data);
-    });
-    await getActivityReports().then((res) => {
-      setActivityData(res.data);
-    });
-    setIsLoading(false);
+  var resActivity = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/activity-reports`
+  );
+  var actData = await resActivity.json();
+
+  return {
+    props: {
+      financialDataa: data,
+      activitiy: actData,
+    },
   };
+}
+
+const finansallar = ({ activitiy, financialDataa }) => {
+  const [financialData, setFinancialData] = useState(financialDataa);
+  const [activityData, setActivityData] = useState(activitiy);
+  const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setIsLoading(false);
+  }, [activitiy, financialDataa]);
+
   const obj =
     financialData &&
     financialData.page.map((item) => JSON.parse(JSON.stringify(item.content)));

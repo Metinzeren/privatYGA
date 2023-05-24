@@ -1,9 +1,11 @@
 import { postEmailData } from "@/API/helper";
+import { getCookie } from "@/utils/common";
+import { footerEnItems, footerTrItems } from "@/utils/data";
 import { removeBlank } from "@/utils/helper";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { Dropdown } from "primereact/dropdown";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +13,7 @@ const Footer = () => {
   const { t } = useTranslation();
   const lineWith = removeBlank(t("newslettertitle"));
   const router = useRouter();
+  const [menuItems, setMenuItems] = useState([]);
   const locales = router.locales.map((locale) => ({
     key: locale,
     value: locale,
@@ -31,6 +34,10 @@ const Footer = () => {
       console.error(error);
     }
   };
+  const localeCookie = getCookie("NEXT_LOCALE");
+  useEffect(() => {
+    setMenuItems(localeCookie === "tr" ? footerTrItems : footerEnItems);
+  }, [localeCookie]);
   return (
     <div className="">
       <div className="bg-[#0B2538] py-16">
@@ -77,209 +84,75 @@ const Footer = () => {
       <footer className="bg-[#F9F7F3] pl-48 pr-48 md:pl-0 md:pr-0 pb-12 md:pb-0 md:pt-0 pt-12">
         <div className="fle flex-col md:flex md:justify-center  pb-10">
           <div className="flex  md:hidden justify-between gap-48">
-            <div className="">
-              <div className="flex flex-col">
-                <img
-                  className="w-16"
-                  src="https://yga.org.tr/svg/world.svg"
-                  alt=""
-                />
-                <h3 className="font-bold text-[#FD8204]">Hakkımızda</h3>
+            {menuItems.map((menuItem, index) => (
+              <div key={index}>
+                <div className="flex flex-col">
+                  <img className="w-16" src={menuItem.icon} alt="" />
+                  <h3 className="font-bold text-[#FD8204]">{menuItem.title}</h3>
+                </div>
+                <ul className="list-none mt-4 text-sm">
+                  {menuItem.links.map((link, linkIndex) => (
+                    <li key={linkIndex} className="mt-2">
+                      <a href={link.url} className="text-[#0B2538]">
+                        {link.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="list-none mt-4 text-sm">
-                <li className="mt-2">
-                  <a href="/about" className=" text-[#0B2538] ">
-                    Hakkımızda
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/history" className=" text-[#0B2538] ">
-                    Ofis Ekibi
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/arge" className=" text-[#0B2538] ">
-                    Mezunlar
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/policies" className=" text-[#0B2538] ">
-                    Hayal Ortakları
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/news" className="text-[#0B2538]  ">
-                    Finansallar
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/sectoral" className=" text-[#0B2538] ">
-                    İletişim
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/references" className=" text-[#0B2538] ">
-                    Blog
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="">
-              <div className="flex flex-col">
-                <img
-                  className="w-16"
-                  src="https://yga.org.tr/svg/lamb.svg"
-                  alt=""
-                />
-                <h3 className="font-bold text-[#FD8204]">
-                  Girişimler ve Projeler
-                </h3>
-              </div>
-              <ul className="list-none mt-4 text-sm">
-                <li className="mt-2">
-                  <a href="/products" className=" text-[#0B2538] ">
-                    Bilim Seferberliği
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="#" className=" text-[#0B2538] ">
-                    WeWalk
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="#" className=" text-[#0B2538] ">
-                    Twin
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="#" className=" text-[#0B2538] ">
-                    Piri
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="#" className="text-[#0B2538]  ">
-                    UP School
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="#" className=" text-[#0B2538] ">
-                    Poilabs
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="">
-              <div className="flex flex-col">
-                <img
-                  className="w-16"
-                  src="https://yga.org.tr/svg/book.svg"
-                  alt=""
-                />
-                <h3 className="font-bold text-[#FD8204]">YGA Programları</h3>
-              </div>
-              <ul className="list-none mt-4 text-sm">
-                <li className="mt-2">
-                  <a href="/ilkaind" className=" text-[#0B2538] ">
-                    Global Impact Middle School
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/ilkaplast" className=" text-[#0B2538] ">
-                    Globacl Impact University
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/ilkapack" className=" text-[#0B2538] ">
-                    Bilimle Buluş
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/ilkapack" className=" text-[#0B2538] ">
-                    Global Impact Pioneers
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/ilkapack" className=" text-[#0B2538] ">
-                    Global Impact High School
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/ilkapack" className=" text-[#0B2538] ">
-                    Alumni Topluluğu
-                  </a>
-                </li>
-                <li className="mt-2">
-                  <a href="/ilkapack" className=" text-[#0B2538] ">
-                    Birbirini Geliştiren Kadınlar
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="">
-              <div className="flex flex-col">
-                <img
-                  className="w-16"
-                  src="https://yga.org.tr/svg/graduate.svg"
-                  alt=""
-                />
-                <a href="/catalog" className="font-bold text-[#FD8204]">
-                  Akademik İşbirlikleri
-                </a>
-              </div>
-              <ul className="list-none mt-4 text-sm"></ul>
-            </div>
-            <div className=" ">
-              <div className="flex flex-col">
-                <img
-                  className="w-16"
-                  src="https://yga.org.tr/svg/bird.svg"
-                  alt=""
-                />
-                <h3 href="/resources" className="font-bold text-[#FD8204]">
-                  YGA Zirvesi
-                </h3>
-              </div>
-              <ul className="list-none mt-4 text-sm"></ul>
-            </div>
+            ))}
           </div>
-          <div className="flex justify-between md:justify-center md:items-center md:flex-col md:pt-4 items-end">
-            <div className="flex gap-4 items-center justify-center">
-              <img
-                className="w-20"
-                src="https://yga.org.tr/img/logofoot.png"
-                alt=""
-              />
-              <h1 className="text-black font-light">
-                <span className="font-extrabold">YGA, </span> Türkiye’de kurulan
-                uluslararası bir sivil toplum kuruluşudur.
-              </h1>
-            </div>
-            <div className="flex gap-2">
-              <img
-                className="w-full md:w-8 object-contain"
-                src="https://yga.org.tr/svg/fb.svg"
-              />
-              <img
-                className="w-full md:w-8 object-contain"
-                src="https://yga.org.tr/svg/ig.svg"
-              />
-              <img
-                className="w-full md:w-8 object-contain"
-                src="https://yga.org.tr/svg/tw.svg"
-              />
-              <img
-                className="w-full md:w-8 object-contain"
-                src="https://yga.org.tr/svg/in.svg"
-              />
+        </div>
+        <div className="flex justify-between md:justify-center md:items-start  md:pl-4 md:flex-col md:gap-3 md:pb-8 md:pt-4 items-end">
+          <div className="flex md:flex-col md:items-start gap-4 items-center justify-center">
+            <img
+              className="w-20"
+              src="https://yga.org.tr/img/logofoot.png"
+              alt=""
+            />
+            <h1 className="text-black font-light">
+              <span className="font-extrabold">YGA, </span> Türkiye’de kurulan
+              uluslararası bir sivil toplum kuruluşudur.
+            </h1>
+          </div>
+          <div className="flex gap-2">
+            <a
+              href="https://www.facebook.com/YoungGuruAcademy/?fref=ts"
+              target=""
+            >
+              <i
+                className="pi pi-facebook"
+                style={{ fontSize: "1.5rem", color: "#FD8204" }}
+              ></i>
+            </a>
+            <a href="https://www.instagram.com/ygaorgtr/?hl=tr" target="">
+              <i
+                className="pi pi-instagram"
+                style={{ fontSize: "1.5rem", color: "#FD8204" }}
+              ></i>
+            </a>
+            <a href="https://twitter.com/ygaorgtr?lang=tr" target="">
+              <i
+                className="pi pi-twitter"
+                style={{ fontSize: "1.5rem", color: "#FD8204" }}
+              ></i>
+            </a>
+            <a href="https://tr.linkedin.com/company/yga" target="">
+              <i
+                className="pi pi-linkedin"
+                style={{ fontSize: "1.5rem", color: "#FD8204" }}
+              ></i>
+            </a>
+            <a href="https://www.tiktok.com/" target="_blank">
               <img
                 className=" w-8 md:w-8 object-contain"
                 src="https://yga.org.tr/svg/tiktok.svg"
               />
-            </div>
+            </a>
           </div>
         </div>
       </footer>
-      <div className="flex py-4 justify-between items-center md:pl-4 md:pr-4 pl-48 pr-48">
+      <div className="flex py-4 justify-between md:flex-col md:items-start md:gap-3 items-center md:pl-4 md:pr-4 pl-48 pr-48">
         <Dropdown
           optionValue="key"
           optionLabel="value"
@@ -289,7 +162,7 @@ const Footer = () => {
             router.push("/", "/", { locale: event.value });
           }}
         />
-        <div className="flex gap-3 text-sm items-center ">
+        <div className="flex md:flex-col md:items-start gap-3 text-sm items-center ">
           <p
             onClick={() => router.push("/kvkk")}
             className="text-[#FD8204] decoration-1 underline cursor-pointer"

@@ -7,32 +7,30 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { getCookie } from "@/utils/common";
 
-const ofisekibi = () => {
-  const [menagerTeam, setMenagerTeam] = useState(null);
-  const [executiveTeam, setExecutiveTeam] = useState(null);
-  const [ofisTeam, setOfisTeam] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resTeam = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/office-team`
+  );
+  var data = await resTeam.json();
+  return {
+    props: {
+      team: data,
+    },
+  };
+}
+
+const ofisekibi = ({ team }) => {
+  const [menagerTeam, setMenagerTeam] = useState(team["yonetim-kurulu"]);
+  const [executiveTeam, setExecutiveTeam] = useState(team["icra-kurulu"]);
+  const [ofisTeam, setOfisTeam] = useState(team["yga-ofis"]);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const localeCookie = getCookie("NEXT_LOCALE");
-
   useEffect(() => {
-    const fetchTeam = async () => {
-      setIsLoading(true);
-      await getOfficeTeam()
-        .then((res) => {
-          setMenagerTeam(res.data["yonetim-kurulu"]);
-          setExecutiveTeam(res.data["icra-kurulu"]);
-          setOfisTeam(res.data["yga-ofis"]);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchTeam();
-  }, []);
+    setIsLoading(false);
+  }, [team]);
   return (
     <Loading loading={isLoading}>
       <Head>

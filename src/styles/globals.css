@@ -1939,6 +1939,13 @@ iframe {
   color: #0a2639;
   line-break: 1.5;
 }
+@media (max-width: 767px){
+  .kvkk{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 /*KVKK PAGE**/
 .photo-grid {
   display: flex;

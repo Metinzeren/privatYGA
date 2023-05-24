@@ -18,12 +18,13 @@ const earthquake = () => {
       </Head>
       <div className="w-full relative">
         <img
+          className="w-full md:h-screen object-cover "
           src="https://yga.org.tr/_nuxt/img/header-bg-overlay-min.656d9ac.jpg"
           alt="image"
         />
-        <div className="absolute top-96 left-48">
-          <div className="text-white">
-            <h1 className="text-6xl font-bold">
+        <div className="absolute  md:top-[36rem] md:left-0 top-96 left-48">
+          <div className="text-white md:pl-4 md:pr-4 flex flex-col gap-2 w-[600px] md:w-full">
+            <h1 className="text-6xl md:text-2xl font-bold">
               Çocukların Görünmeyen Yaralarını,
               <br /> Vicdanlı Bilimle Saralım
             </h1>
@@ -31,7 +32,7 @@ const earthquake = () => {
         </div>
       </div>
 
-      <div className="flex flex-col pl-48 pr-48 gap-5 text-xl mt-16 mb-16 text-[#122B3E] font-light justify-center items-center">
+      <div className="flex flex-col pl-48 md:pl-4 md:pr-4 pr-48 gap-5 text-xl mt-16 mb-16 text-[#122B3E] font-light justify-center items-center">
         <p className="font-light text-center">
           6-7 Şubat 2023 tarihlerinde gerçekleşen depremlerden
           <strong className="font-extrabold"> 11 </strong>
@@ -59,15 +60,15 @@ const earthquake = () => {
           Bağış için tıklayın
         </a>
       </div>
-      <div className="pl-48 pr-48 w-full flex items-center">
-        <div className="w-1/2 p-4 pr-24">
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 w-full flex md:flex-col items-center">
+        <div className="w-1/2 md:w-full p-4 pr-24">
           <img
             className="w-full "
             src="https://yga.org.tr/cms/images/projects/bilim2.png"
             alt=""
           />
         </div>
-        <div className="w-1/2 flex flex-col pl-16 text-[#0B2538] gap-6">
+        <div className="w-1/2 md:w-full flex flex-col pl-16 md:pl-4 md:mb-16 text-[#0B2538] gap-6">
           <p className="tracking-wide text-xl font-light">
             Çocuklarda kontrol ve güven duygusunu yeniden inşa etmenin en
             verimli yollarından biri
@@ -91,8 +92,8 @@ const earthquake = () => {
           </p>
         </div>
       </div>
-      <div className="pl-48 pr-48 w-full flex items-center">
-        <div className="w-1/2 flex flex-col text-[#0B2538] gap-6">
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 w-full md:flex-col flex items-center">
+        <div className="w-1/2 md:w-full flex flex-col text-[#0B2538] gap-6">
           <h1 className="text-5xl font-bold">Hedefimiz</h1>
           <div className="flex flex-col pr-12">
             <p className="tracking-wide text-xl font-light">
@@ -102,7 +103,7 @@ const earthquake = () => {
             </p>
           </div>
         </div>
-        <div className="w-1/2 p-24">
+        <div className="w-1/2 md:w-full md:p-4 p-24">
           <img
             className="w-full "
             src="https://yga.org.tr/cms/images/pages/about-us-1.png"
@@ -111,14 +112,14 @@ const earthquake = () => {
         </div>
       </div>
 
-      <div className="pl-48 pr-48 w-full mt-16 mb-16 flex ">
-        <div className="w-1/2 p-4 pr-24">
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 md:flex-col w-full mt-16 mb-16 flex ">
+        <div className="w-1/2 md:w-full md:pr-4 p-4 pr-24">
           <iframe
             className="w-full h-full"
             src="https://www.youtube.com/embed/c2E6hlTIe6g"
           ></iframe>
         </div>
-        <div className="w-1/2 flex flex-col pl-16 text-[#0B2538] gap-6">
+        <div className="w-1/2 md:w-full flex flex-col md:pl-4 pl-16 text-[#0B2538] gap-6">
           <h1 className="text-5xl font-bold">
             Deprem Bölgelerinde Neler Yapıyoruz
           </h1>
@@ -149,7 +150,7 @@ const earthquake = () => {
           </div>
         </div>
       </div>
-      <div className="flex mt-16 mb-16">
+      <div className="flex md:flex-col mt-16 mb-16">
         {earthquakeImageData?.map((item, index) => {
           return (
             <div className="relative text-white" key={index}>
@@ -160,8 +161,8 @@ const earthquake = () => {
           );
         })}
       </div>
-      <div className="pl-48 pr-48 w-full flex items-center">
-        <div className="w-1/2 flex flex-col pl-16 text-[#0B2538] gap-6">
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 w-full md:flex-col flex items-center">
+        <div className="w-1/2 md:w-full flex flex-col md:pl-4 pl-16 text-[#0B2538] gap-6">
           <h1 className="text-5xl font-bold">
             Bilim Atölyeleri, Çocuklara Ne kazandırıyor?
           </h1>
@@ -191,7 +192,7 @@ const earthquake = () => {
             </ul>
           </div>
         </div>
-        <div className="w-1/2 p-4 pr-24">
+        <div className="w-1/2 md:w-full md:pr-4 p-4 pr-24">
           <img
             className="w-full "
             src="https://yga.org.tr/cms/images/projects/bilim2.png"
@@ -199,7 +200,7 @@ const earthquake = () => {
           />
         </div>
       </div>
-      <div className="pl-48 pr-48 w-ful mt-36">
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 w-full mt-36">
         <div className="flex items-center justify-center">
           <h1 className="items-center text-4xl text-[#FD8204] mb-12">
             Projenin sürdürülebilirliğini Nasıl Sağlıyoruz?
@@ -221,14 +222,14 @@ const earthquake = () => {
           >
             {earthquakeData?.map((item, index) => (
               <SwiperSlide className="w-full" key={index}>
-                <div className="relative flex">
-                  <div className="w-1/2 flex p-20 flex-col">
+                <div className="relative flex md:flex-col">
+                  <div className="w-1/2 md:w-full md:p-4 flex p-20 flex-col">
                     <h1 className="mb-16 text-4xl font-bold">{item.title}</h1>
                     <p className="text-xl font-light text-[#0B2538]">
                       {item.desc}
                     </p>
                   </div>
-                  <div className="w-1/2 p-24">
+                  <div className="w-1/2 md:w-full md:p-4 p-24">
                     {" "}
                     <img
                       className="w-full  object-cover"
@@ -254,7 +255,7 @@ const earthquake = () => {
           </Swiper>
         </div>
       </div>
-      <div className="flex flex-col pl-48 pr-48 gap-5 text-xl mt-16 mb-16 text-[#122B3E] font-light justify-center items-center">
+      <div className="flex flex-col pl-48 md:pl-4 md:pr-4 pr-48 gap-5 text-xl mt-16 mb-16 text-[#122B3E] font-light justify-center items-center">
         <p className="font-light text-center">
           6-7 Şubat 2023 tarihlerinde gerçekleşen depremlerden
           <strong className="font-extrabold"> 11 </strong>
@@ -276,11 +277,11 @@ const earthquake = () => {
         </p>
         <img src="https://yga.org.tr/img/ipsos.png" alt="" className="w-48" />
       </div>
-      <div className="pl-48 pr-48 flex flex-col items-center mb-16">
+      <div className="pl-48 md:pl-4 md:pr-4 pr-48 flex flex-col items-center mb-16">
         <h1 className="text-[#FD8204] mb-12 text-4xl">
           NASIL DESTEK OLABİLİRİM
         </h1>
-        <div className="flex gap-12 mb-12">
+        <div className="flex md:flex-col gap-12 mb-12">
           <div className="flex flex-col">
             <h1 className="text-3xl">TL Bağış</h1>
             <p className="font-light">
@@ -311,7 +312,7 @@ const earthquake = () => {
           </div>
         </div>
       </div>
-      <div className="pl-48 pr-48 flex flex-col gap-5 mb-16">
+      <div className="pl-48 pr-48 md:pl-4 md:pr-4 flex flex-col gap-5 mb-16">
         <h1 className="text-3xl">Kredi Kartı ile Online Bağış:</h1>
         <div className="flex gap-3 decoration underline font-bold">
           <a

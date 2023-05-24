@@ -11,10 +11,24 @@ import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
 
-const alumni = () => {
-  const [almuniData, setAlmuniData] = useState(null);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resAlumni = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/program/alumni-toplulugu`
+  );
+  var data = await resAlumni.json();
+  return {
+    props: {
+      alumni: data,
+    },
+  };
+}
+
+const alumni = ({ alumni }) => {
+  const [almuniData, setAlmuniData] = useState(alumni.detail);
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const selectionOptions = [
     {
       id: 1,
@@ -48,22 +62,11 @@ const alumni = () => {
     },
   ];
   const [selection, setSelection] = useState(1);
+
   useEffect(() => {
-    const fetchAlmuni = async () => {
-      setIsLoading(true);
-      await getAlmuni()
-        .then((res) => {
-          setAlmuniData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchAlmuni();
-  }, []);
+    setIsLoading(false);
+  }, [alumni]);
+
   const obj = JSON.parse(almuniData && almuniData.content);
   const ref = useRef(null);
   const itemDescWithLineBreaks = almuniData && removeBlank(almuniData.title);

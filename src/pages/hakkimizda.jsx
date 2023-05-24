@@ -1,40 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import "primeicons/primeicons.css";
-import { getAbout, getActivityReports } from "@/API/helper";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-// export async function getServerSideProps() {
-//   var resAbout = await fetch("https://yga.org.tr/cms/api/v1/en/page/about-us");
-//   var data = await resAbout.json();
-//   return {
-//     props: {
-//       about: data,
-//     },
-//   };
-// }
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resAbout = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/page/about-us`
+  );
+  var data = await resAbout.json();
+  var resActivity = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/activity-reports`
+  );
+  var actData = await resActivity.json();
+  return {
+    props: {
+      about: data,
+      activity: actData,
+    },
+  };
+}
 
-const hakkimizda = () => {
-  const [aboutData, setAboutData] = useState(null);
-  const [activityData, setActivityData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+const hakkimizda = ({ about, activity }) => {
+  const [aboutData, setAboutData] = useState(about);
+  const [activityData, setActivityData] = useState(activity);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setIsLoading(true);
-    await getAbout().then((res) => {
-      setAboutData(res.data);
-    });
-    await getActivityReports().then((res) => {
-      setActivityData(res.data);
-    });
     setIsLoading(false);
-  };
+  }, [about, activity]);
+
   const obj =
     aboutData &&
     aboutData.page.map((item) => JSON.parse(JSON.stringify(item.content)));

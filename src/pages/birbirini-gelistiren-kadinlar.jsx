@@ -5,21 +5,28 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 
-const empwoman = () => {
-  const [womanData, setWomanData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resWoman = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/program/the-program-of-women-empowering-each-other`
+  );
+  var data = await resWoman.json();
+  return {
+    props: {
+      woman: data,
+    },
+  };
+}
+
+const empwoman = ({ woman }) => {
+  const [womanData, setWomanData] = useState(woman.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchEmpWoman = async () => {
-      setIsLoading(true);
-      await getEmpWoman().then((res) => {
-        setWomanData(res.data.detail);
-      });
-    };
-    fetchEmpWoman();
     setIsLoading(false);
-  }, []);
+  }, [woman]);
   const obj = JSON.parse(womanData && womanData.content);
   const ref = useRef(null);
 

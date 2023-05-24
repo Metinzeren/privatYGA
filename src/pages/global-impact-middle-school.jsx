@@ -10,9 +10,24 @@ import { rooms } from "@/utils/data";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-const globalimpatmiddleschool = () => {
-  const [middleData, setMiddleData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resMiddle = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/program/global-impact-middle-school`
+  );
+  var data = await resMiddle.json();
+  return {
+    props: {
+      middle: data,
+    },
+  };
+}
+
+const globalimpatmiddleschool = ({ middle }) => {
+  const [middleData, setMiddleData] = useState(middle.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const selectionOptions = [
     {
@@ -66,21 +81,9 @@ const globalimpatmiddleschool = () => {
   ];
   const [selection, setSelection] = useState(1);
   useEffect(() => {
-    const fetchMiddle = async () => {
-      setIsLoading(true);
-      await getMiddleSchool()
-        .then((res) => {
-          setMiddleData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchMiddle();
-  }, []);
+    setIsLoading(false);
+  }, [middle]);
+
   const obj = JSON.parse(middleData && middleData.content);
   const ref = useRef(null);
   const filterPageBySectionSlug = (sectionSlug) => {

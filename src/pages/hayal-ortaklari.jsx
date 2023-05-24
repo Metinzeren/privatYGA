@@ -5,26 +5,27 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
-const hayalortaklari = () => {
-  const [partners, setPartners] = useState(null);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resHayal = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/dream-partners`
+  );
+  var data = await resHayal.json();
+  return {
+    props: {
+      hayal: data,
+    },
+  };
+}
+
+const hayalortaklari = ({ hayal }) => {
+  const [partners, setPartners] = useState(hayal);
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    const fetchPartners = async () => {
-      setIsLoading(true);
-      await dreamPartner()
-        .then((res) => {
-          setPartners(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchPartners();
-  }, []);
+    setIsLoading(false);
+  }, [hayal]);
   return (
     <Loading loading={isLoading}>
       <Head>

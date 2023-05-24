@@ -11,98 +11,98 @@ export default function api() {
   });
 }
 
-export const getBannerImage = async () => await api().get("/slider");
+// export const getBannerImage = async () => await api().get("/slider");
 
-export const getStrategic = async () => await api().get("/summit-strategic");
+// export const getStrategic = async () => await api().get("/summit-strategic");
 
-export const getHomePage = async () => await api().get("/page/homepage");
+// export const getHomePage = async () => await api().get("/page/homepage");
 
-export const contactAdress = async () => await api().get("/contact-addresses");
+// export const contactAdress = async () => await api().get("/contact-addresses");
 
-export const dreamPartner = async () => await api().get("/dream-partners");
+// export const dreamPartner = async () => await api().get("/dream-partners");
 
-export const getProjects = async () =>
-  await api().get("/project/bilimseferberligi");
+// export const getProjects = async () =>
+//   await api().get("/project/bilimseferberligi");
 
-export const getProjectsWewalk = async () =>
-  await api().get("/project/we-walk");
+// export const getProjectsWewalk = async () =>
+//   await api().get("/project/we-walk");
 
-export const getProjectsPiri = async () => await api().get("/project/piri");
+// export const getProjectsPiri = async () => await api().get("/project/piri");
 
-export const getProjectsPoilabs = async () =>
-  await api().get("/project/poilabs");
+// export const getProjectsPoilabs = async () =>
+//   await api().get("/project/poilabs");
 
-export const getProjectsTwin = async () => await api().get("/project/twin");
+// export const getProjectsTwin = async () => await api().get("/project/twin");
 
-export const getProjectsUpschool = async () =>
-  await api().get("/project/up-school");
+// export const getProjectsUpschool = async () =>
+//   await api().get("/project/up-school");
 
-export const getGlobalHigh = async () =>
-  await api().get("/program/global-impact-high-school");
+// export const getGlobalHigh = async () =>
+//   await api().get("/program/global-impact-high-school");
 
-export const getPrograms = async () => await api().get("/programs");
+// export const getPrograms = async () => await api().get("/programs");
 
-export const getKvkkPage = async () => await api().get("/page/kvkk");
+// export const getKvkkPage = async () => await api().get("/page/kvkk");
 
-export const getKvkkPdf = async () => await api().get("/kvkk-pdf");
+// export const getKvkkPdf = async () => await api().get("/kvkk-pdf");
 
-export const getAwards = async () => await api().get("/awards");
+// export const getAwards = async () => await api().get("/awards");
 
-export const getAllProjects = async () => await api().get("/projects");
+// export const getAllProjects = async () => await api().get("/projects");
 
-export const getEarthShotPage = async () =>
-  await api().get("/page/earthshot-prize");
+// export const getEarthShotPage = async () =>
+//   await api().get("/page/earthshot-prize");
 
-export const getOfficeTeam = async () => await api().get("/office-team");
+// export const getOfficeTeam = async () => await api().get("/office-team");
 
-export const getGraduates = async () => await api().get("/graduates");
+// export const getGraduates = async () => await api().get("/graduates");
 
-export const getEntrepreneurs = async () => await api().get("/entrepreneurs");
+// export const getEntrepreneurs = async () => await api().get("/entrepreneurs");
 
-export const getAbout = async () => await api().get("/page/about-us");
+// export const getAbout = async () => await api().get("/page/about-us");
 
-export const getActivityReports = async () =>
-  await api().get("/activity-reports");
+// export const getActivityReports = async () =>
+//   await api().get("/activity-reports");
 
-export const getFinancials = async () => await api().get("/page/financials");
+// export const getFinancials = async () => await api().get("/page/financials");
 
-export const getCollaborations = async () =>
-  await api().get("/page/international-collaborations");
+// export const getCollaborations = async () =>
+//   await api().get("/page/international-collaborations");
 
-export const getPartnerStudent = async () =>
-  await api().get("/partnership-student");
+// export const getPartnerStudent = async () =>
+//   await api().get("/partnership-student");
 
-export const getComments = async () => await api().get("/comments");
+// export const getComments = async () => await api().get("/comments");
 
-export const getEartshotSlider = async () =>
-  await api().get("/earthshot-prize");
+// export const getEartshotSlider = async () =>
+//   await api().get("/earthshot-prize");
 
-export const getAdvistory = async () => await api().get("/advisory-board");
+// export const getAdvistory = async () => await api().get("/advisory-board");
 
-export const getPeakSlider = async () => await api().get("/summit-slider");
+// export const getPeakSlider = async () => await api().get("/summit-slider");
 
-export const getSummit = async () => await api().get("/page/summit");
+// export const getSummit = async () => await api().get("/page/summit");
 
-export const getSummitSpeaker = async () => await api().get("/speaker");
+// export const getSummitSpeaker = async () => await api().get("/speaker");
 
-export const getPioneers = async () =>
-  await api().get("/program/global-impact-pioneers");
+// export const getPioneers = async () =>
+//   await api().get("/program/global-impact-pioneers");
 
-export const getEmpWoman = async () =>
-  await api().get("/program/the-program-of-women-empowering-each-other");
+// export const getEmpWoman = async () =>
+//   await api().get("/program/the-program-of-women-empowering-each-other");
 
-export const getMeetUs = async () => api().get("/program/bilimle-bulus");
+// export const getMeetUs = async () => api().get("/program/bilimle-bulus");
 
-export const getMiddleSchool = async () =>
-  await api().get("/program/global-impact-middle-school");
+// export const getMiddleSchool = async () =>
+//   await api().get("/program/global-impact-middle-school");
 
-export const getUniversity = async () =>
-  await api().get("/program/global-impact-university");
+// export const getUniversity = async () =>
+//   await api().get("/program/global-impact-university");
 
-export const getAlmuni = async () =>
-  await api().get("/program/alumni-toplulugu");
+// export const getAlmuni = async () =>
+//   await api().get("/program/alumni-toplulugu");
 
-export const getVideos = async () => await api().get("/videos");
+// export const getVideos = async () => await api().get("/videos");
 
 export const getUniversities = async () => {
   const response = await axios.get(

@@ -8,29 +8,31 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { Dialog } from "primereact/dialog";
 
-const bilimlebulus = () => {
-  const [meetData, setMeetData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resBilim = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/program/bilimle-bulus`
+  );
+  var data = await resBilim.json();
+  return {
+    props: {
+      bilim: data,
+    },
+  };
+}
+
+const bilimlebulus = ({ bilim }) => {
+  const [meetData, setMeetData] = useState(bilim.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const [displayModal, setDisplayModal] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchMeet = async () => {
-      await getMeetUs()
-        .then((res) => {
-          setMeetData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchMeet();
-  }, []);
+    setIsLoading(false);
+  }, [bilim]);
+
   const obj = JSON.parse(meetData && meetData.content);
-  console.log(meetData);
   const ref = useRef(null);
   return (
     <Loading loading={isLoading}>

@@ -7,27 +7,28 @@ import { getProjectsPoilabs } from "@/API/helper";
 import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
-const poilabs = () => {
-  const [poilabsData, setPoilabsData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation();
 
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resPoilabs = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/project/poilabs`
+  );
+  var data = await resPoilabs.json();
+  return {
+    props: {
+      poilabbs: data,
+    },
+  };
+}
+
+const poilabs = ({ poilabbs }) => {
+  const [poilabsData, setPoilabsData] = useState(poilabbs.detail);
+  const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
   useEffect(() => {
-    const fetchPoilabs = async () => {
-      setIsLoading(true);
-      await getProjectsPoilabs()
-        .then((res) => {
-          setPoilabsData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchPoilabs();
-  }, []);
+    setIsLoading(false);
+  }, [poilabbs]);
+
   const obj = JSON.parse(poilabsData && poilabsData.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(poilabsData && poilabsData.links);

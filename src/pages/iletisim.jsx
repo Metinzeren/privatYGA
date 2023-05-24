@@ -5,7 +5,20 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-const iletisim = () => {
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resContact = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/contact-addresses`
+  );
+  var data = await resContact.json();
+  return {
+    props: {
+      contact: data,
+    },
+  };
+}
+
+const iletisim = ({ contact }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,8 +28,8 @@ const iletisim = () => {
   });
   const [status, setStatus] = useState({});
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
-  const [adress, setAdress] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [adress, setAdress] = useState(contact);
   const router = useRouter();
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -26,19 +39,8 @@ const iletisim = () => {
     });
   };
   useEffect(() => {
-    const fetchContactAdress = async () => {
-      setIsLoading(true);
-      await contactAdress()
-        .then((res) => {
-          setAdress(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => setIsLoading(false));
-    };
-    fetchContactAdress();
-  }, []);
+    setIsLoading(false);
+  }, [contact]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

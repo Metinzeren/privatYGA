@@ -4,28 +4,65 @@ import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
 import "primeicons/primeicons.css";
 import { useMediaQuery } from "react-responsive";
-import {
-  getPeakSlider,
-  getStrategic,
-  getSummit,
-  getSummitSpeaker,
-  getVideos,
-} from "@/API/helper";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { Dialog } from "primereact/dialog";
-const peak = () => {
-  const [strategicData, setStrategicData] = useState(null);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resSummitPage = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/page/summit`
+  );
+  var data = await resSummitPage.json();
+
+  var resSummitStrategic = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/summit-strategic`
+  );
+  var strategicData = await resSummitStrategic.json();
+
+  var resSlider = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/summit-slider`
+  );
+  var sliderData = await resSlider.json();
+
+  var resSpeaker = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/speaker`
+  );
+  var speakerData = await resSpeaker.json();
+
+  var resVideos = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/videos`
+  );
+  var videosData = await resVideos.json();
+  return {
+    props: {
+      summitPageNew: data,
+      strategicNew: strategicData,
+      sliderNew: sliderData,
+      speakerNew: speakerData,
+      videosNew: videosData,
+    },
+  };
+}
+
+const peak = ({
+  summitPageNew,
+  strategicNew,
+  sliderNew,
+  speakerNew,
+  videosNew,
+}) => {
+  const [strategicData, setStrategicData] = useState(strategicNew);
   const [visible, setVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [bannerSlider, setBannerSlider] = useState(null);
-  const [summitData, setSummitData] = useState(null);
-  const [speakerData, setSpeakerData] = useState(null);
+  const [bannerSlider, setBannerSlider] = useState(sliderNew);
+  const [summitData, setSummitData] = useState(summitPageNew);
+  const [speakerData, setSpeakerData] = useState(speakerNew);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const [videos, setVideos] = useState(null);
+  const [videos, setVideos] = useState(videosNew);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
   const { t } = useTranslation();
@@ -40,28 +77,8 @@ const peak = () => {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setIsLoading(true);
-    await getStrategic().then((res) => {
-      setStrategicData(res.data);
-    });
-    await getSummit().then((res) => {
-      setSummitData(res.data);
-    });
-    await getSummitSpeaker().then((res) => {
-      setSpeakerData(res.data);
-    });
-    await getPeakSlider().then((res) => {
-      setBannerSlider(res.data);
-    });
-    await getVideos().then((res) => {
-      setVideos(res.data);
-    });
     setIsLoading(false);
-  };
+  }, [summitPageNew, strategicNew, sliderNew, speakerNew, videosNew]);
   const openModal = (video) => {
     setSelectedVideo(video);
     setDisplayModal(true);

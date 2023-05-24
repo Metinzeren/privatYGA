@@ -6,9 +6,23 @@ import { Dropdown } from "primereact/dropdown";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const globalimpacthighschool = () => {
-  const [globalData, setGlobalData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resHigh = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/program/global-impact-high-school`
+  );
+  var data = await resHigh.json();
+  return {
+    props: {
+      high: data,
+    },
+  };
+}
+
+const globalimpacthighschool = ({ high }) => {
+  const [globalData, setGlobalData] = useState(high.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const selectionOptions = [
     {
@@ -31,21 +45,9 @@ const globalimpacthighschool = () => {
   const [selection, setSelection] = useState(1);
 
   useEffect(() => {
-    setIsLoading(true);
-    const fetchGlobal = async () => {
-      await getGlobalHigh()
-        .then((res) => {
-          setGlobalData(res.data.detail);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchGlobal();
-  }, []);
+    setIsLoading(false);
+  }, [high]);
+
   const obj = JSON.parse(globalData && globalData.content);
   const ref = useRef(null);
   const filterPageBySectionSlug = (sectionSlug) => {

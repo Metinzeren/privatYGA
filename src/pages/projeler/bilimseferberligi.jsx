@@ -2,25 +2,35 @@ import React, { useEffect, useRef, useState } from "react";
 import "primeicons/primeicons.css";
 import { getProjects } from "@/API/helper";
 import { Dialog } from "primereact/dialog";
+import Loading from "@/components/Loading";
 
-const bilimseferberligi = () => {
-  const [projects, setProjects] = useState(null);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resBilim = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/project/bilimseferberligi`
+  );
+  var data = await resBilim.json();
+  return {
+    props: {
+      bilimsefer: data,
+    },
+  };
+}
+
+const bilimseferberligi = ({ bilimsefer }) => {
+  const [projects, setProjects] = useState(bilimsefer.detail);
   const [displayModal, setDisplayModal] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    const fetchProjects = async () => {
-      await getProjects().then((res) => {
-        setProjects(res.data.detail);
-      });
-    };
-    fetchProjects();
-  }, []);
+    setIsLoading(false);
+  }, [bilimsefer]);
   const obj = JSON.parse(projects && projects.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(projects && projects.links);
 
   return (
-    <div>
+    <Loading loading={isLoading}>
       {projects && (
         <div className="w-full relative">
           <img
@@ -101,7 +111,7 @@ const bilimseferberligi = () => {
             />
           ))}
       </div>
-    </div>
+    </Loading>
   );
 };
 

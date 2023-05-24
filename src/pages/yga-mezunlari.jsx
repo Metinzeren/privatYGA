@@ -1,32 +1,42 @@
 import React, { useEffect, useState } from "react";
 import "primeicons/primeicons.css";
-import { getEntrepreneurs, getGraduates } from "@/API/helper";
 import YgalıOl from "@/components/YgalıOl";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const ygamezunlari = () => {
-  const [graduatesData, setGraduatesData] = useState(null);
-  const [entrepreneurs, setEntrepreneurs] = useState(null);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resGraduates = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/graduates`
+  );
+  var data = await resGraduates.json();
+
+  var resEntrep = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/entrepreneurs`
+  );
+  var entreData = await resEntrep.json();
+
+  return {
+    props: {
+      graduatesNew: data,
+      entreNew: entreData,
+    },
+  };
+}
+
+const ygamezunlari = ({ graduatesNew, entreNew }) => {
+  const [graduatesData, setGraduatesData] = useState(graduatesNew);
+  const [entrepreneurs, setEntrepreneurs] = useState(entreNew);
   const [itemsToShow, setItemsToShow] = useState(8);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setIsLoading(true);
-    await getGraduates().then((res) => {
-      setGraduatesData(res.data);
-    });
-    await getEntrepreneurs().then((res) => {
-      setEntrepreneurs(res.data);
-    });
     setIsLoading(false);
-  };
+  }, [graduatesNew, entreNew]);
   const handleShowMore = () => {
     setItemsToShow(itemsToShow + 4);
   };

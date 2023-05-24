@@ -3,24 +3,35 @@ import Loading from "@/components/Loading";
 import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 
-const kvkk = () => {
-  const [kvkkPage, setKvkkPage] = useState(null);
-  const [kvkkPdf, setKvkkPdf] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    loadData();
-  }, []);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resKvkk = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/page/kvkk`
+  );
+  var data = await resKvkk.json();
 
-  const loadData = async () => {
-    setIsLoading(true);
-    await getKvkkPage().then((res) => {
-      setKvkkPage(res.data);
-    });
-    await getKvkkPdf().then((res) => {
-      setKvkkPdf(res.data);
-    });
-    setIsLoading(false);
+  var resKvkkPdf = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/kvkk-pdf`
+  );
+  var datapdf = await resKvkkPdf.json();
+  return {
+    props: {
+      kvkk: data,
+      kvkkpdff: datapdf,
+    },
   };
+}
+
+const kvkk = ({ kvkk, kvkkpdff }) => {
+  const [kvkkPage, setKvkkPage] = useState(kvkk);
+  const [kvkkPdf, setKvkkPdf] = useState(kvkkpdff);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [kvkk, kvkkpdff]);
+
   const obj =
     kvkkPage &&
     kvkkPage.page.map((item) => JSON.parse(JSON.stringify(item.content)));
@@ -56,8 +67,8 @@ const kvkk = () => {
             </div>
           ))}
       </div>
-      <div className="pl-60 pr-56 mb-16">
-        <div className="bg-[#f9f7f4] flex items-start justify-center p-24 gap-12">
+      <div className="pl-60 md:pl-4 md:pr-4 pr-56 mb-16">
+        <div className="bg-[#f9f7f4] flex md:flex-col items-start justify-center md:p-4 p-24 gap-12">
           <img
             className="w-96 object-contain "
             src="https://yga.org.tr/_nuxt/img/reportsrect.4130d77.png"
@@ -65,7 +76,7 @@ const kvkk = () => {
           />
           <div className="flex text-[#0a2639] flex-col">
             <h2 className="text-2xl">Politikalar</h2>
-            <h1 className="text-7xl font-bold">
+            <h1 className="text-7xl md:text-3xl font-bold">
               Kişisel Verilerin <br /> Korunması
             </h1>
             {kvkkPdf &&

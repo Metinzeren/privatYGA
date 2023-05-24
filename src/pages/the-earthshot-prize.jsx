@@ -11,33 +11,45 @@ import Head from "next/head";
 import { Dialog } from "primereact/dialog";
 import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
-const earthshot = () => {
-  const [earthquakeDatas, setEarthquakeDatas] = useState(null);
-  const [earthSliderData, setEarthSliderData] = useState(null);
-  const [advistoryData, setAdvistoryData] = useState(null);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resEarth = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/page/earthshot-prize`
+  );
+  var data = await resEarth.json();
+
+  var resSlider = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/earthshot-prize`
+  );
+  var sliderData = await resSlider.json();
+
+  var resAdvistory = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/advisory-board`
+  );
+  var adData = await resAdvistory.json();
+  return {
+    props: {
+      earthDataTwo: data,
+      advisDataTwo: adData,
+      slider: sliderData,
+    },
+  };
+}
+
+const earthshot = ({ slider, advisDataTwo, earthDataTwo }) => {
+  const [earthquakeDatas, setEarthquakeDatas] = useState(earthDataTwo);
+  const [earthSliderData, setEarthSliderData] = useState(slider);
+  const [advistoryData, setAdvistoryData] = useState(advisDataTwo);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [displayModal, setDisplayModal] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setIsLoading(true);
-    await getEarthShotPage().then((res) => {
-      setEarthquakeDatas(res.data);
-    });
-    await getEartshotSlider().then((res) => {
-      setEarthSliderData(res.data);
-    });
-    await getAdvistory().then((res) => {
-      setAdvistoryData(res.data);
-    });
     setIsLoading(false);
-  };
+  }, [slider, advisDataTwo, earthDataTwo]);
 
   const obj =
     earthquakeDatas &&

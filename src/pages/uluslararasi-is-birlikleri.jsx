@@ -1,8 +1,3 @@
-import {
-  getCollaborations,
-  getComments,
-  getPartnerStudent,
-} from "@/API/helper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
@@ -11,30 +6,42 @@ import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const collaborations = () => {
-  const [collaData, setCollaData] = useState(null);
-  const [studentData, setStudentData] = useState(null);
-  const [commentsData, setCommentsData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resColla = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/page/international-collaborations`
+  );
+  var data = await resColla.json();
+
+  var resStudent = await fetch(
+    `https://yga.org.tr/cms/api/v1/tr/partnership-student`
+  );
+  var studentData = await resStudent.json();
+
+  var resComments = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/comments`
+  );
+  var commentsData = await resComments.json();
+  return {
+    props: {
+      collaDataNew: data,
+      studentNew: studentData,
+      commentsNew: commentsData,
+    },
+  };
+}
+
+const collaborations = ({ collaDataNew, studentNew, commentsNew }) => {
+  const [collaData, setCollaData] = useState(collaDataNew);
+  const [studentData, setStudentData] = useState(studentNew);
+  const [commentsData, setCommentsData] = useState(commentsNew);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setIsLoading(true);
-    await getCollaborations().then((res) => {
-      setCollaData(res.data);
-    });
-    await getPartnerStudent().then((res) => {
-      setStudentData(res.data);
-    });
-    await getComments().then((res) => {
-      setCommentsData(res.data);
-    });
     setIsLoading(false);
-  };
+  }, [collaDataNew, studentNew, commentsNew]);
 
   const obj =
     collaData &&

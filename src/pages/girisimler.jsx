@@ -6,22 +6,30 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getCookie } from "@/utils/common";
 import Loading from "@/components/Loading";
-const girisimler = () => {
-  const [projectsData, setProjectsData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resGirisim = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/projects`
+  );
+  var data = await resGirisim.json();
+  return {
+    props: {
+      girisimler: data,
+    },
+  };
+}
+
+const girisimler = ({ girisimler }) => {
+  const [projectsData, setProjectsData] = useState(girisimler.data);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const router = useRouter();
   const localeCookie = getCookie("NEXT_LOCALE");
   useEffect(() => {
-    setIsLoading(true);
-    const fetchProjets = async () => {
-      await getAllProjects().then((res) => {
-        setProjectsData(res.data.data);
-      });
-    };
-    fetchProjets();
     setIsLoading(false);
-  }, []);
+  }, [girisimler]);
   const navigateToDetails = (slug) => {
     const basePath = localeCookie === "tr" ? "/girisimler" : "/ventures";
     const url = `${basePath}/${slug}`;

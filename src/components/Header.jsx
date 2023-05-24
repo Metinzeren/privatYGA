@@ -80,40 +80,42 @@ const Header = () => {
       <div className="absolute w-full z-50 flex left-0 top-20 bg-white flex-col">
         {subMenuOpen[subIndex] && (
           <div
-            onMouseOut={() => {
+            onMouseLeave={() => {
               const newSubMenuOpen = [...subMenuOpen];
               newSubMenuOpen[subIndex] = false;
               setSubMenuOpen(newSubMenuOpen);
             }}
-            className="flex justify-evenly h-64"
+            className="flex justify-around ml-56 xl:ml-24 items-center h-64"
           >
             <div className="flex gap-4 items-center">
               <img src="https://yga.org.tr/svg/bird3.svg" alt="" />
-              <h1 className="w-64">
+              <h1 className="w-80 text-xl font-semibold xl:text-xl">
                 YGA çift kanatlı gençler yetiştirir. Bu gençler birlikte
                 insanlığa faydalı ilklere imza atar.
               </h1>
             </div>
-            <div className="w-[30rem] flex flex-col justify-center">
-              {subMenuOpen[subIndex] &&
-                menuItem.subItems.map((item, index) => {
-                  return (
-                    <p
-                      className="cursor-pointer"
-                      onClick={() => router.push(item.url)}
-                      key={index}
-                    >
-                      {item.label}
-                    </p>
-                  );
-                })}
+            <div className="w-[60rem]">
+              <div className="flex flex-wrap gap-4">
+                {subMenuOpen[subIndex] &&
+                  menuItem.subItems.map((item, index) => {
+                    return (
+                      <div className="flex w-1/3" key={index}>
+                        <p
+                          className="cursor-pointer text-lg xl:text-base font-semibold text-[#0a2639]"
+                          onClick={() => router.push(item.url)}
+                        >
+                          {item.label}
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
         )}
       </div>
     );
   };
-
   return (
     <div className=" w-full p-0 z-50 fixed group hover:bg-white bg-transparent top-0 transition-all">
       <div className="flex md:bg-white justify-evenly md:justify-between md:px-4 relative items-center gap-12 py-4">
@@ -216,7 +218,7 @@ const Header = () => {
                         setSubMenuOpen(newSubMenuOpen);
                       }
                     }}
-                    className="transition-all cursor-pointer text-lg"
+                    className="transition-all cursor-pointer xl:text-sm text-lg"
                     onClick={() => menuItem.url && router.push(menuItem.url)}
                   >
                     {menuItem.label}
@@ -241,11 +243,11 @@ const Header = () => {
           <a
             target="_blank"
             href="https://bilimseferberligi.org/"
-            className="bg-transparent button1 transition-all px-8 py-2 border-2 rounded text-white text-lg group-hover:text-[#FD8204] group-hover:border-[#FD8204] border-white"
+            className="bg-transparent xl:text-sm flex items-center button1 transition-all px-8 py-2 border-2 rounded text-white text-lg group-hover:text-[#FD8204] group-hover:border-[#FD8204] border-white"
           >
             {t("destekle")}
           </a>
-          <button className="px-8 text-black py-2 button2 transition-all bg-white rounded text-lg border-2 border-white group-hover:border-[#FD8204]   group-hover:text-[#FD8204]">
+          <button className="px-8 xl:text-sm text-black py-2 button2 transition-all bg-white rounded text-lg border-2 border-white group-hover:border-[#FD8204]   group-hover:text-[#FD8204]">
             <KayıtOl name={t("basvur")} />
           </button>
           <Dropdown

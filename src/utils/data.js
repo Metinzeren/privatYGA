@@ -352,3 +352,127 @@ export const enMenuItems = [
     target: "_blank",
   },
 ];
+
+export const footerTrItems = [
+  {
+    title: "Hakkımızda",
+    icon: "https://yga.org.tr/svg/world.svg",
+    links: [
+      { title: "Hakkımızda", url: "/hakkimizda" },
+      { title: "Ofis Ekibi", url: "/ofis-ekibi" },
+      { title: "Mezunlar", url: "/yga-mezunlari" },
+      { title: "Hayal Ortakları", url: "/hayal-ortaklari" },
+      { title: "Finansallar", url: "/finansallar" },
+      { title: "İletişim", url: "/iletisim" },
+      { title: "Blog", url: "https://yga.org.tr/blog/" },
+    ],
+  },
+  {
+    title: "Girişimler ve Projeler",
+    icon: "https://yga.org.tr/svg/lamb.svg",
+    links: [
+      { title: "Bilim Seferberliği", url: "/projeler/bilimseferberligi" },
+      { title: "WeWalk", url: "/girisimler/we-walk" },
+      { title: "Twin", url: "/girisimler/twin" },
+      { title: "Piri", url: "/girisimler/piri" },
+      { title: "UP School", url: "/girisimler/up-school" },
+      { title: "Poilabs", url: "/girisimler/poilabs" },
+    ],
+  },
+  {
+    title: "YGA Programları",
+    icon: "https://yga.org.tr/svg/book.svg",
+    links: [
+      {
+        title: "Global Impact Middle School",
+        url: "/global-impact-middle-school",
+      },
+      { title: "Global Impact University", url: "/global-impact-university" },
+      { title: "Bilimle Buluş", url: "/bilimle-bulus" },
+      { title: "Global Impact Pioneers", url: "/global-impact-pioneers" },
+      { title: "Global Impact High School", url: "/global-impact-high-school" },
+      { title: "Alumni Topluluğu", url: "/alumni-toplulugu" },
+      {
+        title: "Birbirini Geliştiren Kadınlar",
+        url: "/birbirini-gelistiren-kadinlar",
+      },
+    ],
+  },
+  {
+    title: "Akademik İşbirlikleri",
+    icon: "https://yga.org.tr/svg/graduate.svg",
+    links: [
+      {
+        title: "Uluslararası İş Birlikleri",
+        url: "/uluslararasi-is-birlikleri",
+      },
+    ],
+  },
+  {
+    title: "YGA Zirvesi",
+    icon: "https://yga.org.tr/svg/bird.svg",
+    links: [
+      {
+        title: "2021 Zirvesi",
+        url: "/zirve",
+      },
+    ],
+  },
+];
+
+export const footerEnItems = [
+  {
+    title: "About Us",
+    icon: "https://yga.org.tr/svg/world.svg",
+    links: [
+      { title: "About Us", url: "/about-us" },
+      { title: "Office Team", url: "/office-team" },
+      { title: "Alumni", url: "/yga-alumni" },
+      { title: "Dream Partners", url: "/dream-partners" },
+      { title: "Financials", url: "/financials" },
+      { title: "Contact Us", url: "/contact-us" },
+      { title: "Blog", url: "https://yga.org.tr/blog/" },
+    ],
+  },
+  {
+    title: "Project and Ventures",
+    icon: "https://yga.org.tr/svg/lamb.svg",
+    links: [
+      { title: "Science Movement", url: "/projects/bilimseferberligi" },
+      { title: "WeWalk", url: "/ventures/we-walk" },
+      { title: "Twin", url: "/ventures/twin" },
+      { title: "Piri", url: "/ventures/piri" },
+      { title: "UP School", url: "/ventures/up-school" },
+      { title: "Poilabs", url: "/ventures/poilabs" },
+    ],
+  },
+  {
+    title: "YGA Programs",
+    icon: "https://yga.org.tr/svg/book.svg",
+    links: [
+      {
+        title: "Global Impact Middle School",
+        url: "/global-impact-middle-school",
+      },
+      { title: "Global Impact University", url: "/global-impact-university" },
+      { title: "Meet with Science", url: "/meet-with-science" },
+      { title: "Global Impact Pioneers", url: "/global-impact-pioneers" },
+      { title: "Global Impact High School", url: "/global-impact-high-school" },
+      { title: "Alumni", url: "/alumni" },
+      {
+        title: "Women Empowering Women",
+        url: "/the-program-of-women-empowering-each-other",
+      },
+    ],
+  },
+  {
+    title: "Partnerships",
+    icon: "https://yga.org.tr/svg/graduate.svg",
+    links: [{ title: "Partnerships", url: "/partnerships" }],
+  },
+  {
+    title: "YGA Zirvesi",
+    icon: "https://yga.org.tr/svg/bird.svg",
+    links: [{ title: "2021 Summit", url: "/summit" }],
+  },
+];

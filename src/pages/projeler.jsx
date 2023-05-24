@@ -6,27 +6,29 @@ import Loading from "@/components/Loading";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-const projects = () => {
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resProje = await fetch(
+    `
+https://yga.org.tr/cms/api/v1/${localeCookie}/project/bilimseferberligi`
+  );
+  var data = await resProje.json();
+  return {
+    props: {
+      projectsData: data,
+    },
+  };
+}
+
+const projects = ({ projectsData }) => {
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
-  const [projects, setProjects] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [projects, setProjects] = useState(projectsData.detail);
   const router = useRouter();
+
   useEffect(() => {
-    const fetchProjects = async () => {
-      setIsLoading(true);
-      await getProjects()
-        .then((res) => {
-          setProjects(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchProjects();
-  }, []);
+    setIsLoading(false);
+  }, [projectsData]);
   const socialLinksData = JSON.parse(projects && projects.links);
 
   return (

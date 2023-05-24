@@ -8,26 +8,27 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Loading from "@/components/Loading";
 
-const piri = () => {
-  const [piriData, setPiriData] = useState(null);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resPiri = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/project/piri`
+  );
+  var data = await resPiri.json();
+  return {
+    props: {
+      pirii: data,
+    },
+  };
+}
+
+const piri = ({ pirii }) => {
+  const [piriData, setPiriData] = useState(pirii.detail);
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    const fetchPiri = async () => {
-      setIsLoading(true);
-      await getProjectsPiri()
-        .then((res) => {
-          setPiriData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchPiri();
-  }, []);
+    setIsLoading(false);
+  }, [pirii]);
+
   const obj = JSON.parse(piriData && piriData.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(piriData && piriData.links);

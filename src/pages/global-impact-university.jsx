@@ -6,10 +6,28 @@ import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const Globalimpactuniversity = () => {
-  const [uniData, setUniData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resUni = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/program/global-impact-university
+    `
+  );
+  var data = await resUni.json();
+  return {
+    props: {
+      university: data,
+    },
+  };
+}
+
+const Globalimpactuniversity = ({ university }) => {
+  const [uniData, setUniData] = useState(university.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [university]);
 
   const selectionOptions = [
     {
@@ -33,22 +51,7 @@ const Globalimpactuniversity = () => {
     },
   ];
   const [selection, setSelection] = useState(1);
-  useEffect(() => {
-    const fetchUniversity = async () => {
-      setIsLoading(true);
-      await getUniversity()
-        .then((res) => {
-          setUniData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchUniversity();
-  }, []);
+
   const obj = uniData && JSON.parse(uniData.content);
   const ref = useRef(null);
   const filterPageBySectionSlug = (sectionSlug) => {

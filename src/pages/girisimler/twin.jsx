@@ -7,27 +7,29 @@ import { getProjectsTwin } from "@/API/helper";
 import { useTranslation } from "next-i18next";
 import Loading from "@/components/Loading";
 import Head from "next/head";
-const twin = () => {
-  const [twinData, setTwinData] = useState(null);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resTwin = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/project/twin`
+  );
+  var data = await resTwin.json();
+  return {
+    props: {
+      twin: data,
+    },
+  };
+}
+
+const twin = ({ twin }) => {
+  const [twinData, setTwinData] = useState(twin.detail);
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTwin = async () => {
-      setIsLoading(true);
-      await getProjectsTwin()
-        .then((res) => {
-          setTwinData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchTwin();
-  }, []);
+    setIsLoading(false);
+  }, [twin]);
+
   const obj = JSON.parse(twinData && twinData.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(twinData && twinData.links);

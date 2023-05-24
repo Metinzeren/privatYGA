@@ -4,27 +4,29 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 
-const pioneers = () => {
-  const [pioneersData, setPioneersData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resPio = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/program/global-impact-pioneers
+    `
+  );
+  var data = await resPio.json();
+  return {
+    props: {
+      pioneerss: data,
+    },
+  };
+}
+
+const pioneers = ({ pioneerss }) => {
+  const [pioneersData, setPioneersData] = useState(pioneerss.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchPioneers = async () => {
-      setIsLoading(true);
-      await getPioneers()
-        .then((res) => {
-          setPioneersData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchPioneers();
-  }, []);
+    setIsLoading(false);
+  }, [pioneerss]);
+
   const obj = JSON.parse(pioneersData && pioneersData.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(pioneersData && pioneersData.links);

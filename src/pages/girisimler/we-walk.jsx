@@ -8,26 +8,28 @@ import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 
-const wewalk = () => {
-  const [weWalkData, setWeWalkData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resWewalk = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/project/we-walk`
+  );
+  var data = await resWewalk.json();
+  return {
+    props: {
+      wewalk: data,
+    },
+  };
+}
+
+const wewalk = ({ wewalk }) => {
+  const [weWalkData, setWeWalkData] = useState(wewalk.detail);
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
+
   useEffect(() => {
-    setIsLoading(true);
-    const fetchWeawalk = async () => {
-      await getProjectsWewalk()
-        .then((res) => {
-          setWeWalkData(res.data.detail);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchWeawalk();
-  }, []);
+    setIsLoading(false);
+  }, [wewalk]);
+
   const obj = JSON.parse(weWalkData && weWalkData.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(weWalkData && weWalkData.links);

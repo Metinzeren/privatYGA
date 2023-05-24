@@ -7,26 +7,29 @@ import { getProjectsUpschool } from "@/API/helper";
 import Loading from "@/components/Loading";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-const upschool = () => {
-  const [upSchoolData, setUpSchoolData] = useState(null);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resUpschool = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/project/up-school`
+  );
+  var data = await resUpschool.json();
+  return {
+    props: {
+      upSchool: data,
+    },
+  };
+}
+
+const upschool = ({ upSchool }) => {
+  const [upSchoolData, setUpSchoolData] = useState(upSchool.detail);
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    const fetchSchool = async () => {
-      setIsLoading(true);
-      await getProjectsUpschool()
-        .then((res) => {
-          setUpSchoolData(res.data.detail);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-    fetchSchool();
-  }, []);
+    setIsLoading(false);
+  }, [upSchool]);
+
   const obj = JSON.parse(upSchoolData && upSchoolData.content);
   const ref = useRef(null);
   const socialLinksData = JSON.parse(upSchoolData && upSchoolData.links);
@@ -45,7 +48,7 @@ const upschool = () => {
           <img
             className="w-full md:h-screen object-cover "
             src={upSchoolData.image_background}
-            alt=""
+            alt="image"
           />
           <div className="absolute  md:top-64 md:left-0 top-96 left-48">
             <div className="text-white md:pl-4 md:pr-4 flex flex-col gap-2 w-[600px] md:w-full">
@@ -100,8 +103,12 @@ const upschool = () => {
       )}
       <div className="wewalk">
         {obj &&
-          obj.page.map((o) => (
-            <div ref={ref} dangerouslySetInnerHTML={{ __html: o.content }} />
+          obj.page.map((o, i) => (
+            <div
+              key={i}
+              ref={ref}
+              dangerouslySetInnerHTML={{ __html: o.content }}
+            />
           ))}
       </div>
 
@@ -140,7 +147,10 @@ const upschool = () => {
         >
           {upSchoolData &&
             upSchoolData.awards.map((item, index) => (
-              <SwiperSlide className="w-full relative  bg-white shadow-xl">
+              <SwiperSlide
+                key={index}
+                className="w-full relative  bg-white shadow-xl"
+              >
                 <div className="flex flex-col items-center  py-8">
                   <img
                     className="w-48 pb-16 object-contain"

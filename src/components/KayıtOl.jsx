@@ -72,13 +72,11 @@ const KayıtOl = ({ name }) => {
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [studentPhone, setStudentPhone] = useState("");
-  const [studentCity, setStudentCity] = useState("");
   const [studentBirth, setStudentBirth] = useState("");
   const [whereHear, setWhereHear] = useState("");
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [kvkkCheck, setKvkkCheck] = useState(false);
-  //kanka loading filan yok normal sayfadaki davranışı görmemiz
   const genderSection = [
     {
       label: t("kiz"),
@@ -251,7 +249,6 @@ const KayıtOl = ({ name }) => {
       }
     } catch (error) {
       console.error(error);
-      // Hata durumunda yapılacak işlemler burada yer alabilir burdaki biraz önce gizledigin yeri kapattıgın yeri geri açtın ya onlar kağpalı iken contact aciliyormu evet hata vermiyor post isteği de atıulıyor
     }
   };
 
@@ -464,8 +461,9 @@ const KayıtOl = ({ name }) => {
                     value={studentPhone}
                     required={true}
                     onChange={(e) => setStudentPhone(e.target.value)}
-                    mask="999/999/99/99"
-                    placeholder="999/999/99/99"
+                    id="phone"
+                    mask="(999) 999-9999"
+                    placeholder="(999) 999-9999"
                   />
                 </div>
               </div>

@@ -2,59 +2,84 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
 import { useEffect, useRef, useState } from "react";
-import {
-  getAllProjects,
-  getAwards,
-  getBannerImage,
-  getHomePage,
-  getPrograms,
-} from "@/API/helper";
 import { useMediaQuery } from "react-responsive";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Loading from "@/components/Loading";
 import { getCookie } from "@/utils/common";
 import { useRouter } from "next/router";
-export default function Home() {
-  const [bannerImage, setBannerImage] = useState(null);
-  const [homeData, setHomeData] = useState(null);
-  const [programsData, setProgramsData] = useState(null);
-  const [awardsData, setAwardsData] = useState(null);
-  const [allProjectsData, setAllProjectsData] = useState(null);
+
+export async function getServerSideProps(context) {
+  const localeCookie = context.req.cookies["NEXT_LOCALE"];
+  var resAwards = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/awards`
+  );
+  var awardsData = await resAwards.json();
+
+  var resPrograms = await fetch(
+    `
+    https://yga.org.tr/cms/api/v1/${localeCookie}/programs`
+  );
+  var programsData = await resPrograms.json();
+
+  var resHomeSlider = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/slider`
+  );
+  var sliderHomeData = await resHomeSlider.json();
+
+  var resHomePage = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/page/homepage`
+  );
+  var homeData = await resHomePage.json();
+
+  var resProjects = await fetch(
+    `https://yga.org.tr/cms/api/v1/${localeCookie}/projects`
+  );
+  var projectsData = await resProjects.json();
+  return {
+    props: {
+      awardsNew: awardsData,
+      programsNew: programsData,
+      sliderNew: sliderHomeData,
+      homeNew: homeData,
+      projectsNew: projectsData,
+    },
+  };
+}
+
+export default function Home({
+  awardsNew,
+  sliderNew,
+  programsNew,
+  homeNew,
+  projectsNew,
+}) {
+  const [bannerImage, setBannerImage] = useState(sliderNew);
+  const [homeData, setHomeData] = useState(homeNew);
+  const [programsData, setProgramsData] = useState(programsNew);
+  const [awardsData, setAwardsData] = useState(awardsNew);
+  const [allProjectsData, setAllProjectsData] = useState(projectsNew.detail);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const router = useRouter();
   const { t } = useTranslation();
-  useEffect(() => {
-    loadData();
-  }, [getCookie("NEXT_LOCALE")]);
 
-  const loadData = async () => {
-    setIsLoading(true);
-    await getAwards().then((res) => {
-      setAwardsData(res.data);
-    });
-    await getPrograms().then((res) => {
-      setProgramsData(res.data);
-    });
-    await getHomePage().then((res) => {
-      setHomeData(res.data);
-    });
-    await getBannerImage().then((res) => {
-      setBannerImage(res.data);
-    });
-    await getAllProjects().then((res) => {
-      setAllProjectsData(res.data.data);
-    });
+  useEffect(() => {
     setIsLoading(false);
-  };
+  }, [
+    getCookie("NEXT_LOCALE"),
+    awardsNew,
+    sliderNew,
+    programsNew,
+    homeNew,
+    projectsNew,
+  ]);
 
   const handleSlideChange = (swiper) => {
     const newIndex = swiper.realIndex;
     setActiveSlideIndex(newIndex);
   };
-
   const SliderInfoBox = () => {
     const isFind =
       allProjectsData && allProjectsData.find((c, i) => i === activeSlideIndex);
@@ -79,7 +104,7 @@ export default function Home() {
                   {t("ygaprogramlari")}
                 </h1>
                 <p className="text-black text-base md:text-sm">
-                  {t("program")}
+                  {t("ygagirisimleridesc")}
                 </p>
               </div>
             )}
@@ -259,7 +284,7 @@ export default function Home() {
         </Swiper>
       </div>
       <div className="editSlider  relative">
-        <div className="absolute left-[400px] md:left-16 md:top-[500px] md:bottom-0  w-fit z-10 top-[300px]">
+        <div className="absolute left-[400px] md:left-8 md:top-[500px] md:bottom-0  w-fit z-10 top-[300px]">
           <SliderInfoBox />
         </div>
         <Swiper
